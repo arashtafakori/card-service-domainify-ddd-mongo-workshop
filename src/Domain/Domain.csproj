@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Authors>$(AssemblyName)</Authors>
+    <Product>$(AssemblyName)</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Propeties\**" />
+    <EmbeddedResource Remove="Propeties\**" />
+    <None Remove="Propeties\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="XSwift" Version="1.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BookletManagementBoundedContext\BookletAggregation\Issues\" />
+  </ItemGroup>
+
+</Project>
