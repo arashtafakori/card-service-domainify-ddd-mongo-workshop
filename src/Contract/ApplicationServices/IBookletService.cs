@@ -5,8 +5,8 @@ namespace Module.Contract
 {
     public interface IBookletService
     {
-        public Task<string> Process(CreateNewBooklet request);
-        public Task Process(ChangeBookletTitle request);
+        public Task<BookletViewModel?> Process(CreateNewBooklet request);
+        public Task<BookletViewModel?> Process(EditBookletTitle request);
         public Task Process(ArchiveBooklet request);
         public Task Process(CheckBookletForArchiving request);
         public Task Process(RestoreBooklet request);

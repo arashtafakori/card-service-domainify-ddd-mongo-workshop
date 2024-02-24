@@ -41,7 +41,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAllOrigins",
         builder =>
         {
-            builder.AllowAnyOrigin();
+            builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
         });
 });
 
@@ -66,6 +68,7 @@ app.UseExceptionHandler(c => c.Run(async context =>
 
     if (app.Environment.IsProduction())
         await context.Response.WriteAsJsonAsync((Error)devError);
+
     await context.Response.WriteAsJsonAsync(devError);
 }));
 app.MapControllers();

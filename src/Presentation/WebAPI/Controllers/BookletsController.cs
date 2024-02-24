@@ -19,7 +19,6 @@ namespace Module.Presentation.WebAPI
         }
 
         [HttpGet]
-        //[EnableCors("AllowAllOrigins")]
         public async Task<ActionResult<PaginatedViewModel<BookletViewModel>>> GetList()
         {
             var request = GetRequest<GetBookletList>();
@@ -54,16 +53,16 @@ namespace Module.Presentation.WebAPI
         [HttpPost]
         public async Task<ActionResult<BookletViewModel?>> Create(CreateNewBooklet request)
         {
-            var id = await _bookletService.Process(request);
-            return CreatedAtAction(nameof(Get), new { id }, id);
+            var createdItem = await _bookletService.Process(request);
+            return CreatedAtAction(nameof(Get), new { createdItem!.Id }, createdItem);
         }
 
-        //[HttpPatch("[action]")]
-        //public async Task<IActionResult> ChangeProjectName(ChangeBookletTitle request)
-        //{
-        //    return await View(
-        //        () => _bookletService.Process(request));
-        //}
+        [HttpPatch("[action]")]
+        public async Task<ActionResult<BookletViewModel?>> EditBookletTitle(EditBookletTitle request)
+        {
+            var updatedItem = await _bookletService.Process(request);
+            return Ok(updatedItem);
+        }
 
         //[HttpPatch("[action]/{id}")]
         //public async Task<IActionResult> Archive(string id)
@@ -84,11 +83,11 @@ namespace Module.Presentation.WebAPI
         //        () => _bookletService.Process(new RestoreBooklet(id)));
         //}
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete(string id)
-        //{
-        //    return await View(
-        //        () => _bookletService.Process(new DeleteBooklet(id)));
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            return await View(
+                () => _bookletService.Process(new DeleteBooklet(id)));
+        }
     }
 }

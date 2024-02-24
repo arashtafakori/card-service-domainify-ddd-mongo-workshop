@@ -11,7 +11,14 @@ namespace Module.Domain.BookletAggregation
         [StringLength(50)]
         [Required(AllowEmptyStrings = false)]
         public string Title { get; protected set; } = string.Empty;
-        public static Booklet New() { return new Booklet(); }
+        public static Booklet Instantiate() { return new Booklet(); }
+        public static Booklet Instantiate(DateTime modifiedDate, bool isArchived) {
+            return new Booklet()
+            {
+                ModifiedDate = modifiedDate,
+                IsArchived = isArchived
+            };
+        }
 
         public override ConditionProperty<Booklet>? Uniqueness()
         {

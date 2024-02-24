@@ -43,7 +43,7 @@ namespace XSwift.MongoDb.Datastore
         /// <returns>The issue is representing the condition of an entity already existing with the specified uniqueness conditions.</returns>
         public override IIssue? GetIssue()
         {
-            return new AnEntityWithTheseUniquenessConditionsHasAlreadyBeenExisted(
+            return new AnEntityWithTheseUniquenessConditionsHasAlreadyExisted(
                     typeof(TEntity).Name, Description);
         }
     }

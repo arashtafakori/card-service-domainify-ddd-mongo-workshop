@@ -7,19 +7,19 @@ using XSwift.MongoDb.Datastore;
 
 namespace Module.Persistence.BookletRepository
 {
-    public class CreateNewBookletHandler :
-        IRequestHandler<CreateNewBooklet, string>
+    public class EditBookletTitleHandler :
+        IRequestHandler<EditBookletTitle>
     {
         private readonly IMediator _mediator;
         private readonly IMongoDatabase _database;
-        public CreateNewBookletHandler(
+        public EditBookletTitleHandler(
             IMediator mediator, IMongoDatabase database)
         {
             _mediator = mediator;
             _database = database;
         }
-        public async Task<string> Handle(
-            CreateNewBooklet request,
+        public async Task<Unit> Handle(
+            EditBookletTitle request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
@@ -28,8 +28,9 @@ namespace Module.Persistence.BookletRepository
             //---
             if (entity.Uniqueness() != null && entity.Uniqueness()!.Condition != null)
             {
-                var uniquenessFilter = Builders<BookletDocument>
-                    .Filter.Eq(d => d.Title, request.Title);
+                var uniquenessFilter = Builders<BookletDocument>.Filter.And(
+                    Builders<BookletDocument>.Filter.Eq(d => d.Title, request.Title),
+                    Builders<BookletDocument>.Filter.Ne(d => d.Id, request.Id));
 
                 await new LogicalState()
                     .AddAnPreventer(new PreventIfTheEntityWithTheseUniquenessConditionsHasAlreadyExisted
@@ -38,10 +39,10 @@ namespace Module.Persistence.BookletRepository
                     .AssesstAsync();
             }
             //---
+            var filter = Builders<BookletDocument>.Filter.Eq(d => d.Id, entity.Id);
             var bookletDoc = BookletDocument.InstanceOf(entity);
-            await collection.InsertOneAsync(bookletDoc);
-            entity.SetId(bookletDoc.Id!);
-            return entity.Id;
+            await collection.ReplaceOneAsync(filter, bookletDoc);
+            return new Unit();
         }
     }
-} 
+}

@@ -14,20 +14,19 @@ namespace Persistence.MongoDb
         public bool IsArchived { get; set; } = false;
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-        public DateTime CreatedDate { get; set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime ModifiedDate { get; set; }
 
-        public static BookletDocument InstantiateFrom(Booklet booklet)
+        public static BookletDocument InstanceOf(Booklet booklet)
         {
-            var dataModel = new BookletDocument();
-            dataModel.Title = booklet.Title;
+            var dataModel = new BookletDocument()
+            {
+                ModifiedDate = booklet.ModifiedDate,
+                IsArchived = booklet.IsArchived,
+                Id = booklet.Id,
 
-            dataModel.IsArchived = Convert.ToBoolean(booklet.Deleted);
-            dataModel.CreatedDate = booklet.CreatedDate;
-            dataModel.Title = booklet.Title;
-
+                Title = booklet.Title,
+            };
+  
             return dataModel;
         }
 
@@ -35,13 +34,22 @@ namespace Persistence.MongoDb
         {
             var viewModel = new BookletViewModel()
             {
-                Id = Id!, 
-                Title = Title,
+                ModifiedDate = ModifiedDate,
                 IsArchived = IsArchived,
-                ModifiedDate = ModifiedDate
+                Id = Id!,
+                Title = Title,
             };
 
             return viewModel;
+        }
+
+        public Booklet ToEntity()
+        {
+            var booklet = Booklet.Instantiate(ModifiedDate, IsArchived);
+            booklet.SetId(Id!);
+            booklet.SetTitle(Title!);
+
+            return booklet;
         }
     }
 }

@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="XSwift" Version="1.3.2" />
+    <PackageReference Include="XSwift" Version="1.3.2.1" />
   </ItemGroup>
 
   <ItemGroup>

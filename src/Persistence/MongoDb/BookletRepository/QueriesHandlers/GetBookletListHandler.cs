@@ -2,9 +2,7 @@
 using Module.Domain.BookletAggregation;
 using MongoDB.Driver;
 using Persistence.MongoDb;
-using XSwift.Datastore;
 using XSwift.Domain;
-using static MongoDB.Bson.Serialization.Serializers.SerializerHelper;
 
 namespace Module.Persistence.BookletRepository
 {
@@ -25,7 +23,8 @@ namespace Module.Persistence.BookletRepository
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
 
             var filter = Builders<BookletDocument>.Filter.Empty;
-            var items = (await collection.Find(filter).ToListAsync())
+            var items = (await collection.Find(filter)
+                .SortByDescending(r => r.ModifiedDate).ToListAsync())
                 .Select(booklet => booklet.ToViewModel()).ToList();
 
             return new PaginatedViewModel<BookletViewModel>(items, items.Count());

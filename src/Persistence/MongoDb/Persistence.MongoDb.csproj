@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
+    <PackageReference Include="XSwift" Version="1.3.2.1" />
   </ItemGroup>
 
   <ItemGroup>

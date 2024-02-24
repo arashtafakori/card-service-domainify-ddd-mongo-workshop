@@ -13,18 +13,5 @@ namespace Module.Domain.BookletAggregation
         [Display(Name = "Modified Date")]
         [DataType(DataType.Date)]
         public DateTime? ModifiedDate { get; set; }
-
-        public static BookletViewModel? InstantiateFrom(Booklet? project)
-        {
-            if (project == null) return null;
-
-            return new BookletViewModel()
-            {
-                Id = project.Id,
-                Title = project.Title,
-                IsArchived = Convert.ToBoolean(project.Deleted),
-                ModifiedDate = project.ModifiedDate
-            };
-        }
     }
 }

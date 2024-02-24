@@ -14,10 +14,10 @@ namespace Module.Domain.BookletAggregation
 
         public override async Task<Booklet> ResolveAndGetEntityAsync(IMediator mediator)
         {
-            var project = (await mediator.Send(
+            var booklet = (await mediator.Send(
                 new RetrieveBooklet(Id, evenArchivedData: true)))!;
-            await base.ResolveAsync(mediator, project);
-            return project;
+            await base.ResolveAsync(mediator, booklet);
+            return booklet;
         }
     }
 }
