@@ -8,7 +8,6 @@ namespace Module.Contract
         public Task<BookletViewModel?> Process(CreateNewBooklet request);
         public Task<BookletViewModel?> Process(EditBookletTitle request);
         public Task Process(ArchiveBooklet request);
-        public Task Process(CheckBookletForArchiving request);
         public Task Process(RestoreBooklet request);
         public Task Process(DeleteBooklet request);
         public Task<BookletViewModel?> Process(GetBooklet request);

@@ -22,7 +22,9 @@ namespace Module.Persistence.BookletRepository
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
 
-            var filter = Builders<BookletDocument>.Filter.Empty;
+            //var filter = Builders<BookletDocument>.Filter.Empty;
+            var filter = Builders<BookletDocument>.Filter.And(
+                Builders<BookletDocument>.Filter.Eq(d => d.IsArchived, false));
             var items = (await collection.Find(filter)
                 .SortByDescending(r => r.ModifiedDate).ToListAsync())
                 .Select(booklet => booklet.ToViewModel()).ToList();

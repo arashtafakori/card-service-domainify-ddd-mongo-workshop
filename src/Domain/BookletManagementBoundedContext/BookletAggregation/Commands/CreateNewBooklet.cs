@@ -20,9 +20,10 @@ namespace Module.Domain.BookletAggregation
         {
             await InvariantState.AssestAsync(mediator);
 
-            var project = Booklet.Instantiate().SetTitle(Title);
-            await base.ResolveAsync(mediator, project);
-            return project;
+            var booklet = new Booklet()
+                .SetTitle(Title);
+             await base.ResolveAsync(mediator, booklet);
+            return booklet;
         }
     }
 }

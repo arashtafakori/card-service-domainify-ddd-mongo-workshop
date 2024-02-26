@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using Module.Domain.BookletAggregation;
+using SharpCompress.Archives;
 
 namespace Persistence.MongoDb
 {
@@ -45,7 +46,12 @@ namespace Persistence.MongoDb
 
         public Booklet ToEntity()
         {
-            var booklet = Booklet.Instantiate(ModifiedDate, IsArchived);
+            var booklet = new Booklet
+            {
+                ModifiedDate = ModifiedDate,
+                IsArchived = IsArchived
+            };
+
             booklet.SetId(Id!);
             booklet.SetTitle(Title!);
 

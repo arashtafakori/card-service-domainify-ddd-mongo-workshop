@@ -64,24 +64,19 @@ namespace Module.Presentation.WebAPI
             return Ok(updatedItem);
         }
 
-        //[HttpPatch("[action]/{id}")]
-        //public async Task<IActionResult> Archive(string id)
-        //{
-        //    return await View(
-        //        () => _bookletService.Process(new ArchiveBooklet(id)));
-        //}
-        //[HttpGet("[action]/{id}")]
-        //public async Task<IActionResult> CheckItemForArchiving(string id)
-        //{
-        //    return await View(
-        //        () => _bookletService.Process(new CheckBookletForArchiving(id)));
-        //}
-        //[HttpPatch("[action]/{id}")]
-        //public async Task<IActionResult> Restore(string id)
-        //{
-        //    return await View(
-        //        () => _bookletService.Process(new RestoreBooklet(id)));
-        //}
+        [HttpPatch("[action]/{id}")]
+        public async Task<IActionResult> Archive(string id)
+        {
+            return await View(
+                () => _bookletService.Process(new ArchiveBooklet(id)));
+        }
+
+        [HttpPatch("[action]/{id}")]
+        public async Task<IActionResult> Restore(string id)
+        {
+            return await View(
+                () => _bookletService.Process(new RestoreBooklet(id)));
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)

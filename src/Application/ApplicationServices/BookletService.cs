@@ -28,10 +28,6 @@ namespace Module.Application
         {
             await _mediator.Send(request);
         }
-        public async Task Process(CheckBookletForArchiving request)
-        {
-            await _mediator.Send(request);
-        }
         public async Task Process(RestoreBooklet request)
         {
             await _mediator.Send(request);

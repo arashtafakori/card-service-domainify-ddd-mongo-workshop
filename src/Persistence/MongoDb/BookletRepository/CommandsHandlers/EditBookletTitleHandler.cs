@@ -23,22 +23,21 @@ namespace Module.Persistence.BookletRepository
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
-
             var entity = await request.ResolveAndGetEntityAsync(_mediator);
-            //---
+
+            var logicalState = new LogicalState();
+            var uniquenessFilter = Builders<BookletDocument>.Filter.And(
+                Builders<BookletDocument>.Filter.Eq(d => d.IsArchived, false),
+                Builders<BookletDocument>.Filter.Eq(d => d.Title, request.Title),
+                Builders<BookletDocument>.Filter.Ne(d => d.Id, request.Id));
             if (entity.Uniqueness() != null && entity.Uniqueness()!.Condition != null)
             {
-                var uniquenessFilter = Builders<BookletDocument>.Filter.And(
-                    Builders<BookletDocument>.Filter.Eq(d => d.Title, request.Title),
-                    Builders<BookletDocument>.Filter.Ne(d => d.Id, request.Id));
-
-                await new LogicalState()
-                    .AddAnPreventer(new PreventIfTheEntityWithTheseUniquenessConditionsHasAlreadyExisted
-                    <Booklet, BookletDocument>(collection, uniquenessFilter)
-                    .WithDescription(entity.Uniqueness()!.Description!))
+                await new LogicalState().AddAnPreventer(new PreventIfTheEntityHasAlreadyExistedPreventer
+                                    <Booklet, BookletDocument>(collection, uniquenessFilter)
+                                    .WithDescription(entity.Uniqueness()!.Description!))
                     .AssesstAsync();
             }
-            //---
+
             var filter = Builders<BookletDocument>.Filter.Eq(d => d.Id, entity.Id);
             var bookletDoc = BookletDocument.InstanceOf(entity);
             await collection.ReplaceOneAsync(filter, bookletDoc);
