@@ -7,29 +7,30 @@ using Domainify.MongoDb.Datastore;
 
 namespace Module.Persistence.BookletRepository
 {
-    public class RestoreBookletHandler :
-        IRequestHandler<RestoreBooklet>
+    public class CreateBookletHandler :
+        IRequestHandler<CreateBooklet, string>
     {
         private readonly IMediator _mediator;
         private readonly IMongoDatabase _database;
-        public RestoreBookletHandler(
+        public CreateBookletHandler(
             IMediator mediator, IMongoDatabase database)
         {
             _mediator = mediator;
             _database = database;
         }
-
-        public async Task<Unit> Handle(
-            RestoreBooklet request,
+        public async Task<string> Handle(
+            CreateBooklet request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
-            var entity = await request.ResolveAndGetEntityAsync(_mediator);
+            var booklet = await request.ResolveAndGetEntityAsync(_mediator);
 
-            var filter = Builders<BookletDocument>.Filter.Eq(d => d.Id, entity.Id);
-            var update = Builders<BookletDocument>.Update.Set(d => d.IsDeleted, entity.IsDeleted);
-            await collection.UpdateOneAsync(filter, update);
-            return new Unit();
+            //await BookletAggregation.Setup(_mediator).CreateBooklet(booklet);
+
+            var bookletDoc = BookletDocument.InstanceOf(booklet);
+            await collection.InsertOneAsync(bookletDoc);
+            booklet.SetId(bookletDoc.Id!);
+            return booklet.Id;
         }
     }
-}
+} 

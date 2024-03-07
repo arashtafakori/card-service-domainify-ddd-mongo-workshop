@@ -1,10 +1,8 @@
-﻿using XSwift.Settings;
-using System.Globalization;
+﻿using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Module.Application;
 using Application;
-using Microsoft.Extensions.Options;
 
 namespace Module.Presentation.Configuration
 {
@@ -14,26 +12,32 @@ namespace Module.Presentation.Configuration
             this IServiceCollection services,
             IConfigurationRoot configuration)
         {
-            var mongoDBSetting = new MongoDBSetting();
-            configuration.GetSection("MongoDBSetting").Bind(mongoDBSetting);
+            var databaseSettings = new DatabaseSettings();
+            configuration.GetSection("DatabaseSettings").Bind(databaseSettings);
+
+            var inMemoryDatabaseSettings = new InMemoryDatabaseSettings();
+            configuration.GetSection("InMemoryDatabaseSettings").Bind(inMemoryDatabaseSettings);
+
+            var mongoDBSettings = new MongoDBSettings();
+            configuration.GetSection("MongoDBSettings").Bind(mongoDBSettings);
 
             services.ConfigureApplicationServices(
-                databaseSetting: new DatabaseSetting(configuration),
-                inMemoryDatabaseSetting: new InMemoryDatabaseSetting(configuration),
-                mongoDBSetting: mongoDBSetting);
+                databaseSettings: databaseSettings,
+                inMemoryDatabaseSettings: inMemoryDatabaseSettings,
+                mongoDBSettings: mongoDBSettings);
         }
 
         public static void ConfigureApplicationServices(
             this IServiceCollection services,
-            DatabaseSetting databaseSetting,
-            MongoDBSetting mongoDBSetting,
-            InMemoryDatabaseSetting? inMemoryDatabaseSetting = null)
+            DatabaseSettings databaseSettings,
+            MongoDBSettings mongoDBSettings,
+            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null)
         {
             //-- Application
             services.AddApplicationServices(
-                databaseSetting, 
-                mongoDBSetting,
-                inMemoryDatabaseSetting);
+                databaseSettings,
+                mongoDBSettings,
+                inMemoryDatabaseSettings);
         }
 
         public static void ConfigureLanguage(

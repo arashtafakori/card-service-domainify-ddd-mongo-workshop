@@ -1,8 +1,7 @@
-﻿using XSwift.Base;
-using XSwift.Domain;
+﻿using Domainify.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace XSwift.MongoDb.Datastore
+namespace Domainify.MongoDb.Datastore
 {
     public class PreventIfNoEntityWasFound<TEntity, TModel>
         : LogicalPreventer

@@ -63,24 +63,6 @@ namespace Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ACategoryWithThisNameOnThisBookletHasAlreadyExisted {
-            get {
-                return ResourceManager.GetString("ACategoryWithThisNameOnThisBookletHasAlreadyExisted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string ACategoryWithThisNameOnThisParentCategoryHasAlreadyExisted {
-            get {
-                return ResourceManager.GetString("ACategoryWithThisNameOnThisParentCategoryHasAlreadyExisted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
         internal static string ABookletWithThisTitleAndVersionHasAlreadyExisted {
             get {
                 return ResourceManager.GetString("ABookletWithThisTitleAndVersionHasAlreadyExisted", resourceCulture);
@@ -90,36 +72,9 @@ namespace Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string TaskStatus_Blocked {
+        internal static string AnIndexWithThisNameOnThisBookletHasAlreadyExisted {
             get {
-                return ResourceManager.GetString("TaskStatus.Blocked", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string TaskStatus_Completed {
-            get {
-                return ResourceManager.GetString("TaskStatus.Completed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string TaskStatus_InProgress {
-            get {
-                return ResourceManager.GetString("TaskStatus.InProgress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string TaskStatus_NotStarted {
-            get {
-                return ResourceManager.GetString("TaskStatus.NotStarted", resourceCulture);
+                return ResourceManager.GetString("AnIndexWithThisNameOnThisBookletHasAlreadyExisted", resourceCulture);
             }
         }
     }

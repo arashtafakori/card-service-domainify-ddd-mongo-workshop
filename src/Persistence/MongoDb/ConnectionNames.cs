@@ -3,5 +3,6 @@
     internal class ConnectionNames
     {
          public const string Booklet = "Booklet";
+         public const string Index = "Index";
     }
 }

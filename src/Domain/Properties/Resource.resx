@@ -117,25 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TaskStatus.Blocked" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TaskStatus.Completed" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TaskStatus.InProgress" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TaskStatus.NotStarted" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ACategoryWithThisNameOnThisBookletHasAlreadyExisted" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ACategoryWithThisNameOnThisParentCategoryHasAlreadyExisted" xml:space="preserve">
-    <value />
-  </data>
   <data name="ABookletWithThisTitleAndVersionHasAlreadyExisted" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AnIndexWithThisNameOnThisBookletHasAlreadyExisted" xml:space="preserve">
     <value />
   </data>
 </root>

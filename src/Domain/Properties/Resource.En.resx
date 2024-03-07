@@ -118,24 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ABookletWithThisTitleAndVersionHasAlreadyExisted" xml:space="preserve">
-    <value>A booklet with this title and version has already existed. </value>
+    <value>A booklet with this title has already existed. </value>
   </data>
-  <data name="ACategoryWithThisNameOnThisBookletHasAlreadyExisted" xml:space="preserve">
+  <data name="AnIndexWithThisNameOnThisBookletHasAlreadyExisted" xml:space="preserve">
     <value>A category with this name on this booklet has already existed. </value>
-  </data>
-  <data name="TaskStatus.Blocked" xml:space="preserve">
-    <value>Blocked</value>
-  </data>
-  <data name="TaskStatus.Completed" xml:space="preserve">
-    <value>Completed</value>
-  </data>
-  <data name="TaskStatus.InProgress" xml:space="preserve">
-    <value>In Progress</value>
-  </data>
-  <data name="TaskStatus.NotStarted" xml:space="preserve">
-    <value>Not Started</value>
-  </data>
-  <data name="ACategoryWithThisNameOnThisParentCategoryHasAlreadyExisted" xml:space="preserve">
-    <value>A category with this name on this parent category has already existed. </value>
   </data>
 </root>

@@ -1,9 +1,8 @@
-﻿using XSwift.Base;
-using XSwift.Domain;
+﻿using Domainify.Domain;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 
-namespace XSwift.MongoDb.Datastore
+namespace Domainify.MongoDb.Datastore
 {
     public class PreventIfTheEntityHasAlreadyExistedPreventer<TEntity, TDocument>
         : LogicalPreventer

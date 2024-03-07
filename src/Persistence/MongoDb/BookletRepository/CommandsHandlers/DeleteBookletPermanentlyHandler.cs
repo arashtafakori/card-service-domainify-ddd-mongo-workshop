@@ -5,12 +5,12 @@ using Persistence.MongoDb;
 
 namespace Module.Persistence.BookletRepository
 {
-    public class ArchiveBookletHandler :
-        IRequestHandler<ArchiveBooklet>
+    public class DeleteBookletPermanentlyHandler :
+        IRequestHandler<DeleteBookletPermanently>
     {
         private readonly IMediator _mediator;
         private readonly IMongoDatabase _database;
-        public ArchiveBookletHandler(
+        public DeleteBookletPermanentlyHandler(
             IMediator mediator, IMongoDatabase database)
         {
             _mediator = mediator;
@@ -18,16 +18,16 @@ namespace Module.Persistence.BookletRepository
         }
 
         public async Task<Unit> Handle(
-            ArchiveBooklet request,
+            DeleteBookletPermanently request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
             var entity = await request.ResolveAndGetEntityAsync(_mediator);
 
-            var filter = Builders<BookletDocument>.Filter.Eq(d => d.Id, entity.Id);
-            
-            var update = Builders<BookletDocument>.Update.Set(d => d.IsArchived, entity.IsArchived);
-            await collection.UpdateOneAsync(filter, update);
+            var filter = Builders<BookletDocument>.Filter
+               .Eq(d => d.Id, entity.Id);
+            await collection.DeleteOneAsync(filter);
+
             return new Unit();
         }
     }

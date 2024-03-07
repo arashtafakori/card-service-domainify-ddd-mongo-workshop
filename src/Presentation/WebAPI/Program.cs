@@ -1,8 +1,8 @@
-﻿using XSwift.Base;
-using Module.Presentation.Configuration;
+﻿using Module.Presentation.Configuration;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Diagnostics;
 using Module.Presentation.WebAPI;
+using Domainify;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureApplicationServices(builder.Configuration);

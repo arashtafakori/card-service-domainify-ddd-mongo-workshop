@@ -1,4 +1,4 @@
-﻿using XSwift.Domain;
+﻿using Domainify.Domain;
 using MediatR;
 
 namespace Module.Domain.BookletAggregation
@@ -14,10 +14,12 @@ namespace Module.Domain.BookletAggregation
         public override async Task<Booklet> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            await InvariantState.AssestAsync(mediator);
-
             var booklet = (await mediator.Send(
-                new RetrieveBooklet(Id, evenArchivedData: true)))!;
+                new GetBooklet(Id, evenDeletedData: true)))!;
+
+            InvariantState.AddAnInvariantRequest(new PreventIfTheSameBookletHasAlreadyExisted(booklet));
+            await InvariantState.AssestAsync(mediator);
+ 
             await base.ResolveAsync(mediator, booklet);
             return booklet;
         }

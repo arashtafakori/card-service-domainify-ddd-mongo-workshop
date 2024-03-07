@@ -2,8 +2,8 @@
 using Module.Domain.BookletAggregation;
 using MongoDB.Driver;
 using Persistence.MongoDb;
-using XSwift.Domain;
-using XSwift.MongoDb.Datastore;
+using Domainify.Domain;
+using Domainify.MongoDb.Datastore;
 
 namespace Module.Persistence.BookletRepository
 {
@@ -24,19 +24,6 @@ namespace Module.Persistence.BookletRepository
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
             var entity = await request.ResolveAndGetEntityAsync(_mediator);
-
-            var logicalState = new LogicalState();
-            var uniquenessFilter = Builders<BookletDocument>.Filter.And(
-                Builders<BookletDocument>.Filter.Eq(d => d.IsArchived, false),
-                Builders<BookletDocument>.Filter.Eq(d => d.Title, request.Title),
-                Builders<BookletDocument>.Filter.Ne(d => d.Id, request.Id));
-            if (entity.Uniqueness() != null && entity.Uniqueness()!.Condition != null)
-            {
-                await new LogicalState().AddAnPreventer(new PreventIfTheEntityHasAlreadyExistedPreventer
-                                    <Booklet, BookletDocument>(collection, uniquenessFilter)
-                                    .WithDescription(entity.Uniqueness()!.Description!))
-                    .AssesstAsync();
-            }
 
             var filter = Builders<BookletDocument>.Filter.Eq(d => d.Id, entity.Id);
             var bookletDoc = BookletDocument.InstanceOf(entity);

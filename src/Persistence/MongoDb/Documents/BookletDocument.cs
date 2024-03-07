@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using Module.Domain.BookletAggregation;
-using SharpCompress.Archives;
+using Index = Module.Domain.BookletAggregation.Index;
 
 namespace Persistence.MongoDb
 {
@@ -10,19 +10,22 @@ namespace Persistence.MongoDb
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
+        public string Type { get; set; } = null!;
         public string Title { get; set; } = null!;
-
-        public bool IsArchived { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime ModifiedDate { get; set; }
+
+        public List<Index> Indices { get; set; } = new List<Index>();
 
         public static BookletDocument InstanceOf(Booklet booklet)
         {
             var dataModel = new BookletDocument()
             {
+                Type = booklet.Type,
                 ModifiedDate = booklet.ModifiedDate,
-                IsArchived = booklet.IsArchived,
+                IsDeleted = booklet.IsDeleted,
                 Id = booklet.Id,
 
                 Title = booklet.Title,
@@ -31,29 +34,15 @@ namespace Persistence.MongoDb
             return dataModel;
         }
 
-        public BookletViewModel ToViewModel()
-        {
-            var viewModel = new BookletViewModel()
-            {
-                ModifiedDate = ModifiedDate,
-                IsArchived = IsArchived,
-                Id = Id!,
-                Title = Title,
-            };
-
-            return viewModel;
-        }
-
         public Booklet ToEntity()
         {
-            var booklet = new Booklet
-            {
-                ModifiedDate = ModifiedDate,
-                IsArchived = IsArchived
-            };
+            var booklet = Booklet.NewInstance(Type);
+            booklet.ModifiedDate = ModifiedDate;
+            booklet.IsDeleted = IsDeleted;
 
             booklet.SetId(Id!);
             booklet.SetTitle(Title!);
+            booklet.Indices = Indices;
 
             return booklet;
         }

@@ -3,14 +3,15 @@ using MediatR;
 
 namespace Module.Domain.BookletAggregation
 {
-    public class GetBooklet :
-        QueryItemRequestById<Booklet, string, Booklet?>
+    public class GetIndex :
+        QueryItemRequestById<Index, string, Index?>
     {
-        public bool WithIndices { get; private set; } = false;
-        public GetBooklet(string id, bool withIndices = true, bool evenDeletedData = false) : base(id)
+        [BindTo(typeof(Index), nameof(Index.BookletId))]
+        public string BookletId { get; private set; } = string.Empty;
+
+        public GetIndex(string bookletId, string id, bool evenDeletedData = false) : base(id)
         {
-            WithIndices = withIndices;
-            //TrackingMode = true;
+            BookletId = bookletId.Trim();
             //PreventIfNoEntityWasFound = true;
             EvenDeletedData = evenDeletedData;
         }

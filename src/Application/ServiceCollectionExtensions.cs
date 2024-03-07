@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using XSwift.Settings;
 using Module.Contract;
 using MediatR;
 using Application;
@@ -11,19 +10,19 @@ namespace Module.Application
     {
         public static void AddApplicationServices(
             this IServiceCollection services,
-            DatabaseSetting databaseSetting,
-            MongoDBSetting mongoDBSetting,
-            InMemoryDatabaseSetting? inMemoryDatabaseSetting = null)
+            DatabaseSettings databaseSettings,
+            MongoDBSettings mongoDBSettings,
+            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null)
         {
             services.ConfigureDataStore(
-                databaseSetting,
-                mongoDBSetting,
-                inMemoryDatabaseSetting);
+                databaseSettings,
+                mongoDBSettings,
+                inMemoryDatabaseSettings);
 
             // MediatR Registrations
             services.AddMediatR(typeof(BookletService));
-            services.AddMediatR(typeof(Persistence.BookletRepository.CreateNewBookletHandler));
-            services.AddMediatR(typeof(Domain.BookletAggregation.CreateNewBooklet));
+            services.AddMediatR(typeof(Persistence.BookletRepository.CreateBookletHandler));
+            services.AddMediatR(typeof(Domain.BookletAggregation.CreateBooklet));
 
             // Application Services
             services.AddScoped<IBookletService, BookletService>();
@@ -33,17 +32,17 @@ namespace Module.Application
 
         private static void ConfigureDataStore(
             this IServiceCollection services,
-            DatabaseSetting databaseSetting,
-            MongoDBSetting mongoDBSetting,
-            InMemoryDatabaseSetting? inMemoryDatabaseSetting = null)
+            DatabaseSettings databaseSettings,
+            MongoDBSettings mongoDBSettings,
+            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null)
         {
-            if (databaseSetting.IsInMemory)
+            if (databaseSettings.IsInMemory)
             {
             }
             else
             {
-                var client = new MongoClient(mongoDBSetting.ConnectionString);
-                IMongoDatabase database = client.GetDatabase(mongoDBSetting.DatabaseName);
+                var client = new MongoClient(mongoDBSettings.ConnectionString);
+                IMongoDatabase database = client.GetDatabase(mongoDBSettings.DatabaseName);
                 services.AddSingleton(database);
             }
 

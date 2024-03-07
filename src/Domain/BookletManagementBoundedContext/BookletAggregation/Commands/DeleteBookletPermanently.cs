@@ -1,23 +1,23 @@
-﻿using XSwift.Domain;
+﻿using Domainify.Domain;
 using MediatR;
 
 namespace Module.Domain.BookletAggregation
 {
-    public class ArchiveBooklet :
-        RequestToArchiveById<Booklet, string>
+    public class DeleteBookletPermanently :
+        RequestToDeletePermanentlyById<Booklet, string>
     {
-        public ArchiveBooklet(string id) 
+        public DeleteBookletPermanently(string id)
             : base(id)
-        {
+        { 
             ValidationState.Validate();
         }
-        public override async Task<Booklet> ResolveAndGetEntityAsync(
-            IMediator mediator)
+
+        public override async Task<Booklet> ResolveAndGetEntityAsync(IMediator mediator)
         {
             await InvariantState.AssestAsync(mediator);
 
             var booklet = (await mediator.Send(
-                new RetrieveBooklet(Id, evenArchivedData: true)))!;
+                new GetBooklet(Id, evenDeletedData: true)))!;
             await base.ResolveAsync(mediator, booklet);
             return booklet;
         }

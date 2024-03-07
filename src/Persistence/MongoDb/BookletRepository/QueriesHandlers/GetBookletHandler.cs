@@ -6,7 +6,7 @@ using Persistence.MongoDb;
 namespace Module.Persistence.BookletRepository
 {
     public class GetBookletHandler :
-        IRequestHandler<GetBooklet, BookletViewModel?>
+        IRequestHandler<GetBooklet, Booklet?>
     {
         private readonly IMongoDatabase _database;
         public GetBookletHandler(IMongoDatabase database) 
@@ -14,7 +14,7 @@ namespace Module.Persistence.BookletRepository
             _database = database;
         }
 
-        public async Task<BookletViewModel?> Handle(
+        public async Task<Booklet?> Handle(
             GetBooklet request,
             CancellationToken cancellationToken)
         {
@@ -23,8 +23,17 @@ namespace Module.Persistence.BookletRepository
             var filter = Builders<BookletDocument>
                 .Filter.Eq(r => r.Id, request.Id);
 
-            return (await collection.FindSync(filter)
-                .FirstOrDefaultAsync()).ToViewModel();
+            if (request.EvenDeletedData == false)
+                filter = filter & Builders<BookletDocument>
+                   .Filter.Eq(r => r.IsDeleted, request.EvenDeletedData);
+
+            var findFluent = collection.Find(filter);
+
+            if(request.WithIndices == false)
+                findFluent = findFluent.Project<BookletDocument>(Builders<BookletDocument>.Projection.Exclude(r => r.Indices));
+
+            return (await findFluent
+                .FirstOrDefaultAsync()).ToEntity();
         }
     }
 }
