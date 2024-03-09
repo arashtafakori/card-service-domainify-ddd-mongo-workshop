@@ -15,7 +15,12 @@ namespace Module.Contract
         public Task<PaginatedViewModel<BookletViewModel>> Process(GetBookletsList request);
  
         public Task<IndexViewModel?> Process(AddIndex request);
+        public Task<IndexViewModel?> Process(EditIndexName request);
         public Task<IndexViewModel?> Process(GetIndex request);
         public Task<List<IndexViewModel>> Process(GetIndicesList request);
+        public Task Process(DeleteIndex request);
+        public Task Process(RestoreIndex request);
+        public Task Process(DeleteIndexPermanently request);
+        public Task Process(EmptyIndicesTrash request);
     }
 }

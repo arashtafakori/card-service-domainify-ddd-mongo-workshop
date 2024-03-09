@@ -17,12 +17,12 @@ namespace Module.Application
         public async Task<BookletViewModel?> Process(CreateBooklet request)
         {
             var id = await _mediator.Send(request);
-            return (await _mediator.Send(new GetBooklet(id, withIndices: false)))!.ToViewModel();
+            return (await _mediator.Send(new GetBooklet(id)))!.ToViewModel();
         }
         public async Task<BookletViewModel?> Process(EditBookletTitle request)
         {
             await _mediator.Send(request);
-            return (await _mediator.Send(new GetBooklet(request.Id, withIndices: false)))!.ToViewModel();
+            return (await _mediator.Send(new GetBooklet(request.Id)))!.ToViewModel();
         }
         public async Task Process(DeleteBooklet request)
         {
@@ -55,9 +55,7 @@ namespace Module.Application
             if(result != null)
             {
                 return (await _mediator.Send(
-                    new GetIndex(
-                        bookletId: result!.Value.bookletId,
-                        id: result!.Value.id)))!
+                    new GetIndex(id: result!.Value.id)))!
                         .ToViewModel();
             }
             return null;
@@ -69,6 +67,27 @@ namespace Module.Application
         public async Task<List<IndexViewModel>> Process(GetIndicesList request)
         {
             return await _mediator.Send(request);
+        }
+        public async Task<IndexViewModel?> Process(EditIndexName request)
+        {
+            await _mediator.Send(request);
+            return (await _mediator.Send(new GetIndex(id: request.Id)))!.ToViewModel();
+        }
+        public async Task Process(DeleteIndex request)
+        {
+            await _mediator.Send(request);
+        }
+        public async Task Process(RestoreIndex request)
+        {
+            await _mediator.Send(request);
+        }
+        public async Task Process(DeleteIndexPermanently request)
+        {
+            await _mediator.Send(request);
+        }
+        public async Task Process(EmptyIndicesTrash request)
+        {
+            await _mediator.Send(request);
         }
     }
 }

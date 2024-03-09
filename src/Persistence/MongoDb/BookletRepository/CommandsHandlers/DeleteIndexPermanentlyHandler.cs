@@ -5,30 +5,33 @@ using Persistence.MongoDb;
 
 namespace Module.Persistence.BookletRepository
 {
-    public class CreateBookletHandler :
-        IRequestHandler<CreateBooklet, string>
+    public class DeleteIndexPermanentlyHandler :
+        IRequestHandler<DeleteIndexPermanently>
     {
         private readonly IMediator _mediator;
         private readonly IMongoDatabase _database;
-        public CreateBookletHandler(
+        public DeleteIndexPermanentlyHandler(
             IMediator mediator, IMongoDatabase database)
         {
             _mediator = mediator;
             _database = database;
         }
-        public async Task<string> Handle(
-            CreateBooklet request,
+
+        public async Task<Unit> Handle(
+            DeleteIndexPermanently request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
             var preparedItem = await request.ResolveAndGetEntityAsync(_mediator);
 
-            //await BookletAggregation.Setup(_mediator).CreateBooklet(preparedItem);
+            var filter = Builders<BookletDocument>.Filter
+                .ElemMatch(t => t.Indices, i => i.Id == preparedItem.Id);
 
-            var bookletDoc = BookletDocument.InstanceOf(preparedItem);
-            await collection.InsertOneAsync(bookletDoc);
-            preparedItem.SetId(bookletDoc.Id!);
-            return preparedItem.Id;
+            var update = Builders<BookletDocument>.Update
+                .PullFilter(b => b.Indices, i => i.Id == preparedItem.Id);
+
+            await collection.UpdateOneAsync(filter, update);
+            return new Unit();
         }
     }
-} 
+}

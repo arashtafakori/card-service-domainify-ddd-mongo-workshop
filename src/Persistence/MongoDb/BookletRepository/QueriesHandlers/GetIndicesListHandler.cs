@@ -2,10 +2,6 @@
 using Module.Domain.BookletAggregation;
 using MongoDB.Driver;
 using Persistence.MongoDb;
-using Domainify.Domain;
-using MongoDB.Bson;
-using Index = Module.Domain.BookletAggregation.Index;
-using System.Collections.Generic;
 
 namespace Module.Persistence.BookletRepository
 {
@@ -27,27 +23,21 @@ namespace Module.Persistence.BookletRepository
 
             var filterBooklet = Builders<BookletDocument>.Filter.Eq(b => b.Id, request.BookletId);
 
-            var retrivalDeletationStatus = request.IsDeleted;
-            if (request.IsDeleted == false && request.EvenDeletedData)
-                retrivalDeletationStatus = true;
+            filterBooklet = filterBooklet & Builders<BookletDocument>
+                .Filter.Eq(b => b.IsDeleted, false);
 
-            filterBooklet = filterBooklet & Builders<BookletDocument>.Filter.Eq(b => b.IsDeleted, retrivalDeletationStatus);
-            var filterIndex =Builders<Index>.Filter.Eq(i => i.IsDeleted, retrivalDeletationStatus);
+            var filter = Builders<BookletDocument>.Filter.And(filterBooklet);
 
-            var filter = Builders<BookletDocument>.Filter.And(filterBooklet,
-                Builders<BookletDocument>.Filter.ElemMatch(b => b.Indices,
-                Builders<Index>.Filter.And(filterIndex, 
-                Builders<Index>.Filter.Regex(
-                    d => d.Name, new BsonRegularExpression(request.SearchValue, "i")))));
+            var booklet = await collection.FindSync(filter)
+                .FirstOrDefaultAsync();
 
-            var booklet = (await collection.FindSync(filter)
-                .FirstOrDefaultAsync());
-
-            var indices = new List<IndexViewModel>();
+            var retrievedItems = new List<IndexViewModel>();
             if (booklet != null)
-                indices = booklet.Indices.Select(i => i.ToViewModel()).ToList();
+                retrievedItems = booklet.Indices
+                    .Where(i => i.IsDeleted == request.IsDeleted)
+                    .Select(i => i.ToViewModel()).ToList();
 
-            return indices;
+            return retrievedItems;
         }
     }
 }

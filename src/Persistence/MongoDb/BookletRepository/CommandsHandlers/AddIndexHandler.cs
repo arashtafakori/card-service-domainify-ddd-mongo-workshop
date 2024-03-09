@@ -2,9 +2,6 @@
 using Module.Domain.BookletAggregation;
 using MongoDB.Driver;
 using Persistence.MongoDb;
-using Domainify.Domain;
-using Domainify.MongoDb.Datastore;
-using Index = Module.Domain.BookletAggregation.Index;
 using MongoDB.Bson;
 
 namespace Module.Persistence.BookletRepository
@@ -26,21 +23,21 @@ namespace Module.Persistence.BookletRepository
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
 
-            var index = await request.ResolveAndGetEntityAsync(_mediator);
-            index.SetId(ObjectId.GenerateNewId().ToString());
+            var preparedItem = await request.ResolveAndGetEntityAsync(_mediator);
+            preparedItem.SetId(ObjectId.GenerateNewId().ToString());
 
             var filter = Builders<BookletDocument>.Filter.Eq(b => b.Id, request.BookletId);
-            var update = Builders<BookletDocument>.Update.Push(b => b.Indices, index);
+            var update = Builders<BookletDocument>.Update.Push(b => b.Indices, preparedItem);
         
             var options = new FindOneAndUpdateOptions<BookletDocument>
             {
                 ReturnDocument = ReturnDocument.After
             };
 
-            var updatedBooklet = collection.FindOneAndUpdate(filter, update, options);
+            var updatedItem = await collection.FindOneAndUpdateAsync(filter, update, options);
 
-            if (updatedBooklet != null && updatedBooklet.Indices.Any())
-                return (request.BookletId, updatedBooklet.Indices.Last().Id);
+            if (updatedItem != null && updatedItem.Indices.Any())
+                return (request.BookletId, updatedItem.Indices.Last().Id);
 
             return null;
         }

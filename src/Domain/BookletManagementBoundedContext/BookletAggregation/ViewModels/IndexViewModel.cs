@@ -6,7 +6,6 @@ namespace Module.Domain.BookletAggregation
     public class IndexViewModel : ViewModel, IModifiedViewModel, IDeletableViewModel
     {
         public required string Id { get; set; }
-        public required string BookletId { get; set; }
         public required string Name { get; set; }
 
         public bool IsDeleted { get; set; }

@@ -5,27 +5,27 @@ using Persistence.MongoDb;
 
 namespace Module.Persistence.BookletRepository
 {
-    public class GetBookletHandler :
-        IRequestHandler<GetBooklet, Booklet?>
+    internal class FindBookletHandler :
+        IRequestHandler<FindBooklet, Booklet?>
     {
         private readonly IMongoDatabase _database;
-        public GetBookletHandler(IMongoDatabase database) 
+        public FindBookletHandler(IMongoDatabase database) 
         {
             _database = database;
         }
 
         public async Task<Booklet?> Handle(
-            GetBooklet request,
+            FindBooklet request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
 
             var filter = Builders<BookletDocument>
-                .Filter.Eq(b => b.Id, request.Id);
+                .Filter.Eq(r => r.Id, request.Id);
 
             if (request.EvenDeletedData == false)
                 filter = filter & Builders<BookletDocument>
-                   .Filter.Eq(b => b.IsDeleted, request.EvenDeletedData);
+                   .Filter.Eq(r => r.IsDeleted, request.EvenDeletedData);
 
             var findFluent = collection.Find(filter);
 

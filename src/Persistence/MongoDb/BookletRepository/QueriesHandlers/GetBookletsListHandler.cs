@@ -27,7 +27,6 @@ namespace Module.Persistence.BookletRepository
             if (request.IsDeleted == false && request.EvenDeletedData)
                 retrivalDeletationStatus = true;
 
-            //var filter = Builders<BookletDocument>.Filter.Empty;
             var filter = Builders<BookletDocument>.Filter.And(
             Builders<BookletDocument>.Filter.Eq(d => d.IsDeleted, retrivalDeletationStatus),
             Builders<BookletDocument>.Filter.Regex(d => d.Title, new BsonRegularExpression(request.SearchValue, "i")));
@@ -40,13 +39,13 @@ namespace Module.Persistence.BookletRepository
                 .Limit(request.PageSize)
                 .SortByDescending(r => r.ModifiedDate);
 
-             var items = (await findFluent.ToListAsync())
+             var retrievedItems = (await findFluent.ToListAsync())
                 .Select(booklet => booklet.ToEntity().ToViewModel()).ToList();
 
             var totalCount = await findFluent.CountDocumentsAsync();
 
             return new PaginatedViewModel<BookletViewModel>(
-                items,
+                retrievedItems,
                 numberOfTotalItems: totalCount,
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize);

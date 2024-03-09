@@ -6,7 +6,7 @@ namespace Module.Domain.BookletAggregation
     public class AddIndex
         : RequestToCreate<Index, (string bookletId, string id)?>
     {
-        [BindTo(typeof(Index), nameof(Index.BookletId))]
+        [BindTo(typeof(Booklet), nameof(Booklet.Id))]
         public string BookletId { get; private set; } = string.Empty;
 
         [BindTo(typeof(Index), nameof(Index.Name))]
@@ -22,10 +22,13 @@ namespace Module.Domain.BookletAggregation
         public override async Task<Index> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var index = Index.NewInstance(bookletId: BookletId)
-                .SetName(Name);
+            var maxOrder = await mediator.Send(new MaxOrderValueOfBookletIndices(BookletId));
 
-            InvariantState.AddAnInvariantRequest(new PreventIfTheSameIndexHasAlreadyExisted(index));
+            var index = Index.NewInstance()
+                .SetName(Name).SetOrder(maxOrder + 1);
+   
+            InvariantState.AddAnInvariantRequest(
+                new PreventIfTheSameIndexHasAlreadyExisted(index, bookletId: BookletId));
             await InvariantState.AssestAsync(mediator);
 
             await base.ResolveAsync(mediator, index);

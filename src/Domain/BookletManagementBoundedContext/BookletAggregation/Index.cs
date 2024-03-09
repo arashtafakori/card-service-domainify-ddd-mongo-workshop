@@ -6,14 +6,14 @@ namespace Module.Domain.BookletAggregation
 {
     public class Index : Entity<Index, string>
     {
-        [Required]
-        public string BookletId { get; protected set; } = string.Empty;
-
         [MinLengthShouldBe(3)]
         [MaxLengthShouldBe(50)]
         [StringLength(50)]
         [Required(AllowEmptyStrings = false)]
         public string Name { get; protected set; } = string.Empty;
+
+        [Required]
+        public int Order { get; protected set; }
 
         public override ConditionProperty<Index>? Uniqueness()
         {
@@ -24,16 +24,9 @@ namespace Module.Domain.BookletAggregation
             };
         }
 
-        public static Index NewInstance(string bookletId)
+        public static Index NewInstance()
         {
-            return new Index().SetBookletId(bookletId);
-        }
-
-        public Index SetBookletId(string value)
-        {
-            BookletId = value;
-
-            return this;
+            return new Index();
         }
         public Index SetName(string value)
         {
@@ -41,12 +34,16 @@ namespace Module.Domain.BookletAggregation
 
             return this;
         }
+        public Index SetOrder(int value)
+        {
+            Order = value;
 
+            return this;
+        }
         public IndexViewModel ToViewModel()
         {
             var viewModel = new IndexViewModel()
             {
-                BookletId = BookletId!,
                 ModifiedDate = ModifiedDate,
                 IsDeleted = IsDeleted,
                 Id = Id!,

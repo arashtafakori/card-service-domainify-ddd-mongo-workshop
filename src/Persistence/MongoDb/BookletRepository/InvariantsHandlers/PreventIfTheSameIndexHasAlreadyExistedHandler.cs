@@ -26,7 +26,16 @@ namespace Domainify.MongoDb.Datastore
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
             await request.ResolveAsync(_mediator);
 
-            //
+            var bookletId = request.BookletId;
+
+            if (request.BookletId == null && request.Index.Id != null)
+            {
+                bookletId = (await collection.FindAsync(
+                    Builders<BookletDocument>.Filter
+                    .ElemMatch(i => i.Indices, i => i.Id == request.Index.Id))
+                    .Result.FirstOrDefaultAsync()).Id;
+            }
+
             var filter = Builders<Index>.Filter.And(
                     Builders<Index>.Filter.Eq(i => i.Name, request.Index.Name),
                     Builders<Index>.Filter.Eq(i => i.IsDeleted, false));
@@ -38,7 +47,7 @@ namespace Domainify.MongoDb.Datastore
             }
 
             var uniquenessFilter = Builders<BookletDocument>.Filter.And(
-                Builders<BookletDocument>.Filter.Eq(b => b.Id, request.Index.BookletId),
+                Builders<BookletDocument>.Filter.Eq(b => b.Id, bookletId),
                 Builders<BookletDocument>.Filter.ElemMatch(b => b.Indices, filter));
 
             if (request.Index.Uniqueness() != null && request.Index.Uniqueness()!.Condition != null)

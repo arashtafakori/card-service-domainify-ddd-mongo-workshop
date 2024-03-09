@@ -3,10 +3,10 @@ using MediatR;
 
 namespace Module.Domain.BookletAggregation
 {
-    public class RestoreBooklet :
-        RequestToRestoreById<Booklet, string>
+    public class DeleteBooklet :
+        RequestToDeleteById<Booklet, string>
     {
-        public RestoreBooklet(string id) 
+        public DeleteBooklet(string id) 
             : base(id)
         {
             ValidationState.Validate();
@@ -14,12 +14,10 @@ namespace Module.Domain.BookletAggregation
         public override async Task<Booklet> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var booklet = (await mediator.Send(
-                new GetBooklet(Id, evenDeletedData: true)))!;
-
-            InvariantState.AddAnInvariantRequest(new PreventIfTheSameBookletHasAlreadyExisted(booklet));
             await InvariantState.AssestAsync(mediator);
- 
+
+            var booklet = (await mediator.Send(
+                new FindBooklet(Id, evenDeletedData: true)))!;
             await base.ResolveAsync(mediator, booklet);
             return booklet;
         }

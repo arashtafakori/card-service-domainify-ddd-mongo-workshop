@@ -1,22 +1,24 @@
 ﻿using MediatR;
 using Module.Domain.BookletAggregation;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Persistence.MongoDb;
+using System.Linq;
 using Index = Module.Domain.BookletAggregation.Index;
 
 namespace Module.Persistence.BookletRepository
 {
-    public class GetIndexHandler :
-        IRequestHandler<GetIndex, Index?>
+    internal class FindIndexHandler :
+        IRequestHandler<FindIndex, Index?>
     {
         private readonly IMongoDatabase _database;
-        public GetIndexHandler(IMongoDatabase database) 
+        public FindIndexHandler(IMongoDatabase database) 
         {
             _database = database;
         }
 
         public async Task<Index?> Handle(
-            GetIndex request,
+            FindIndex request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);

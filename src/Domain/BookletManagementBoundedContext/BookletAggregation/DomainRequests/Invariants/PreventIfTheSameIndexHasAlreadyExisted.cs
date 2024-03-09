@@ -7,10 +7,13 @@ namespace Module.Domain.BookletAggregation
     internal class PreventIfTheSameIndexHasAlreadyExisted
         : InvariantRequest<Index>
     {
+        [BindTo(typeof(Booklet), nameof(Booklet.Id))]
+        public string? BookletId { get; private set; }
         public Index Index { get; private set; }
-        public PreventIfTheSameIndexHasAlreadyExisted(Index index)
+        public PreventIfTheSameIndexHasAlreadyExisted(Index index, string? bookletId = null)
         {
             Index = index;
+            BookletId = bookletId;
         }
         public override IIssue? GetIssue()
         {

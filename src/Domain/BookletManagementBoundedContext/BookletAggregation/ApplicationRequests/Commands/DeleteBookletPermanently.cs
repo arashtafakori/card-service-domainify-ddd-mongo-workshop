@@ -17,7 +17,7 @@ namespace Module.Domain.BookletAggregation
             await InvariantState.AssestAsync(mediator);
 
             var booklet = (await mediator.Send(
-                new GetBooklet(Id, evenDeletedData: true)))!;
+                new FindBooklet(Id, evenDeletedData: true)))!;
             await base.ResolveAsync(mediator, booklet);
             return booklet;
         }

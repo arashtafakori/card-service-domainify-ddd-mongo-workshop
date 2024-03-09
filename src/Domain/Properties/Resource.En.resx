@@ -121,6 +121,6 @@
     <value>A booklet with this title has already existed. </value>
   </data>
   <data name="AnIndexWithThisNameOnThisBookletHasAlreadyExisted" xml:space="preserve">
-    <value>A category with this name on this booklet has already existed. </value>
+    <value>An index with this name on this booklet has already existed. </value>
   </data>
 </root>

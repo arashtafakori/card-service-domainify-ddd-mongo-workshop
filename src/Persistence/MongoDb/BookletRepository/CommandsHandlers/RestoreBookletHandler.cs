@@ -2,8 +2,6 @@
 using Module.Domain.BookletAggregation;
 using MongoDB.Driver;
 using Persistence.MongoDb;
-using Domainify.Domain;
-using Domainify.MongoDb.Datastore;
 
 namespace Module.Persistence.BookletRepository
 {
@@ -24,10 +22,10 @@ namespace Module.Persistence.BookletRepository
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
-            var entity = await request.ResolveAndGetEntityAsync(_mediator);
+            var preparedItem = await request.ResolveAndGetEntityAsync(_mediator);
 
-            var filter = Builders<BookletDocument>.Filter.Eq(d => d.Id, entity.Id);
-            var update = Builders<BookletDocument>.Update.Set(d => d.IsDeleted, entity.IsDeleted);
+            var filter = Builders<BookletDocument>.Filter.Eq(d => d.Id, preparedItem.Id);
+            var update = Builders<BookletDocument>.Update.Set(d => d.IsDeleted, preparedItem.IsDeleted);
             await collection.UpdateOneAsync(filter, update);
             return new Unit();
         }

@@ -6,7 +6,7 @@ namespace Module.Domain.BookletAggregation
     public class GetIndicesList :
         QueryListRequest<Index, List<IndexViewModel>>
     {
-        [BindTo(typeof(Index), nameof(Index.BookletId))]
+        [BindTo(typeof(Booklet), nameof(Booklet.Id))]
         public required string BookletId { get; set; }
 
         public bool? IsDeleted { get; set; }
