@@ -1,31 +1,29 @@
 ﻿using MediatR;
-using Module.Domain.BookletAggregation;
+using Module.Domain.CardAggregation;
 using MongoDB.Driver;
 using Persistence.MongoDb;
 
-namespace Module.Persistence.BookletRepository
+namespace Module.Persistence.CardRepository
 {
-    public class CreateBookletHandler :
-        IRequestHandler<CreateBooklet, string>
+    public class AddCardHandler :
+        IRequestHandler<AddCard, string>
     {
         private readonly IMediator _mediator;
         private readonly IMongoDatabase _database;
-        public CreateBookletHandler(
+        public AddCardHandler(
             IMediator mediator, IMongoDatabase database)
         {
             _mediator = mediator;
             _database = database;
         }
         public async Task<string> Handle(
-            CreateBooklet request,
+            AddCard request,
             CancellationToken cancellationToken)
         {
-            var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
+            var collection = _database.GetCollection<CardDocument>(ConnectionNames.Card);
             var preparedItem = await request.ResolveAndGetEntityAsync(_mediator);
 
-            //await BookletAggregation.Setup(_mediator).CreateBooklet(preparedItem);
-
-            var newDocument = BookletDocument.InstanceOf(preparedItem);
+            var newDocument = CardDocument.InstanceOf(preparedItem);
             await collection.InsertOneAsync(newDocument);
             preparedItem.SetId(newDocument.Id!);
             return preparedItem.Id;

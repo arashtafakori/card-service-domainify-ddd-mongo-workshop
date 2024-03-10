@@ -5,15 +5,15 @@ namespace Module.Domain.BookletAggregation
 {
     public class BookletViewModel : ViewModel, IModifiedViewModel, IDeletableViewModel
     {
-        public required string Id { get; set; }
-        public required string Type { get; set; }
-        public required string Title { get; set; }
-
+        public string Id { get; set; } = string.Empty;
         public bool IsDeleted { get; set; }
-        public List<IndexViewModel> Indices { get; set; } = new List<IndexViewModel>();
-
+        
         [Display(Name = "Modified Date")]
         [DataType(DataType.Date)]
         public DateTime? ModifiedDate { get; set; }
+
+        public short Type { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public List<IndexViewModel> Indices { get; set; } = new List<IndexViewModel>();
     }
 }

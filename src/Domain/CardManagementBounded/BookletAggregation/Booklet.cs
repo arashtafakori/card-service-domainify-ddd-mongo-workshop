@@ -1,7 +1,6 @@
 ﻿using Domainify.Domain;
 using System.ComponentModel.DataAnnotations;
 using Domain.Properties;
-using MediatR;
 
 namespace Module.Domain.BookletAggregation
 {
@@ -13,11 +12,8 @@ namespace Module.Domain.BookletAggregation
         [Required(AllowEmptyStrings = false)]
         public string Title { get; protected set; } = string.Empty;
 
-        [MinLengthShouldBe(3)]
-        [MaxLengthShouldBe(10)]
-        [StringLength(10)]
-        [Required(AllowEmptyStrings = false)]
-        public string Type { get; protected set; } = string.Empty;
+        [Required]
+        public short Type { get; protected set; }
 
         public List<Index> Indices { get; set; } = new List<Index>();
 
@@ -30,12 +26,12 @@ namespace Module.Domain.BookletAggregation
             };
         }
 
-        public static Booklet NewInstance(string type)
+        public static Booklet NewInstance(short type)
         {
             return new Booklet().SetType(type);
         }
 
-        public Booklet SetType(string value)
+        public Booklet SetType(short value)
         {
             Type = value;
 
@@ -63,26 +59,5 @@ namespace Module.Domain.BookletAggregation
 
             return viewModel;
         }
-
-        //private static IMediator? _mediator;
-
-        //public Booklet(IMediator mediator) { _mediator = mediator; }
-
-        //public Booklet Setup(IMediator mediator)
-        //{
-        //    return new Booklet(mediator);
-        //}
-        //public void RemoveIndex(Index index)
-        //{
-        //    Indices.Remove(index);
-        //}
-
-        //public void UpdateIndex(Index index)
-        //{
-        //    var inx = Indices.FindIndex(item => item.Id == index.Id);
-
-        //    if (inx != -1)
-        //        Indices[inx] = index;
-        //}
     }
 }

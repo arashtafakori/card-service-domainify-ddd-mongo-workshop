@@ -1,50 +1,53 @@
 ﻿using MediatR;
-using Module.Domain.BookletAggregation;
 using MongoDB.Driver;
 using Persistence.MongoDb;
 using Domainify.Domain;
 using MongoDB.Bson;
+using Module.Domain.CardAggregation;
 
-namespace Module.Persistence.BookletRepository
+namespace Module.Persistence.CardRepository
 {
-    public class GetBookletsListHandler :
-        IRequestHandler<GetBookletsList,
-            PaginatedViewModel<BookletViewModel>>
+    public class GetCardsListHandler :
+        IRequestHandler<GetCardsList,
+            PaginatedViewModel<CardViewModel>>
     {
         private readonly IMongoDatabase _database;
-        public GetBookletsListHandler(IMongoDatabase database)
+        public GetCardsListHandler(IMongoDatabase database)
         {
             _database = database;
         }
 
-        public async Task<PaginatedViewModel<BookletViewModel>> Handle(
-            GetBookletsList request,
+        public async Task<PaginatedViewModel<CardViewModel>> Handle(
+            GetCardsList request,
             CancellationToken cancellationToken)
         {
-            var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
+            var collection = _database.GetCollection<CardDocument>(ConnectionNames.Card);
 
             var retrivalDeletationStatus = request.IsDeleted;
             if (request.IsDeleted == false && request.EvenDeletedData)
                 retrivalDeletationStatus = true;
 
-            var filter = Builders<BookletDocument>.Filter.And(
-            Builders<BookletDocument>.Filter.Eq(d => d.IsDeleted, retrivalDeletationStatus),
-            Builders<BookletDocument>.Filter.Regex(d => d.Title, new BsonRegularExpression(request.SearchValue, "i")));
+            var filterSearch = Builders<CardDocument>.Filter.Or(
+                Builders<CardDocument>.Filter.Regex(d => d.Translation, new BsonRegularExpression(request.SearchValue, "i")),
+                Builders<CardDocument>.Filter.Regex(d => d.Expression, new BsonRegularExpression(request.SearchValue, "i")));
+
+            var filter = Builders<CardDocument>.Filter.And(
+                Builders<CardDocument>.Filter.Eq(d => d.IsDeleted, retrivalDeletationStatus),
+                filterSearch);
 
             var skip = request.PageNumber <= 1 ? 0 : ((request.PageNumber - 1) * request.PageSize) - 1;
 
             var findFluent = collection.Find(filter)
-                .Project<BookletDocument>(Builders<BookletDocument>.Projection.Exclude(r => r.Indices))
                 .Skip(skip)
                 .Limit(request.PageSize)
-                .SortByDescending(r => r.ModifiedDate);
+                .SortByDescending(r => r.Order);
 
              var retrievedItems = (await findFluent.ToListAsync())
                 .Select(i => i.ToEntity().ToViewModel()).ToList();
 
             var totalCount = await findFluent.CountDocumentsAsync();
 
-            return new PaginatedViewModel<BookletViewModel>(
+            return new PaginatedViewModel<CardViewModel>(
                 retrievedItems,
                 numberOfTotalItems: totalCount,
                 pageNumber: request.PageNumber,

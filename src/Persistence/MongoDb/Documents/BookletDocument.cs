@@ -9,13 +9,14 @@ namespace Persistence.MongoDb
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
-        public string Type { get; set; } = null!;
-        public string Title { get; set; } = null!;
-        public bool IsDeleted { get; set; } = false;
+        public required string Id { get; set; }
+        public required bool IsDeleted { get; set; } = false;
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-        public DateTime ModifiedDate { get; set; }
+        public required DateTime ModifiedDate { get; set; }
+
+        public required short Type { get; set; }
+        public required string Title { get; set; }
 
         public List<Index> Indices { get; set; } = new List<Index>();
 
@@ -23,11 +24,11 @@ namespace Persistence.MongoDb
         {
             var dataModel = new BookletDocument()
             {
-                Type = booklet.Type,
-                ModifiedDate = booklet.ModifiedDate,
-                IsDeleted = booklet.IsDeleted,
                 Id = booklet.Id,
+                IsDeleted = booklet.IsDeleted,
+                ModifiedDate = booklet.ModifiedDate,
 
+                Type = booklet.Type,
                 Title = booklet.Title,
             };
   
@@ -37,10 +38,10 @@ namespace Persistence.MongoDb
         public Booklet ToEntity()
         {
             var booklet = Booklet.NewInstance(Type);
+            booklet.SetId(Id!);
             booklet.ModifiedDate = ModifiedDate;
             booklet.IsDeleted = IsDeleted;
 
-            booklet.SetId(Id!);
             booklet.SetTitle(Title!);
             booklet.Indices = Indices;
 

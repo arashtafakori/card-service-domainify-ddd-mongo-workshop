@@ -6,17 +6,17 @@ using Index = Module.Domain.BookletAggregation.Index;
 
 namespace Module.Persistence.BookletRepository
 {
-    internal class MaxOrderValueOfBookletIndicesHandler :
-        IRequestHandler<MaxOrderValueOfBookletIndices, int>
+    internal class MaxOrderValueOfIndexInBookletHandler :
+        IRequestHandler<MaxOrderValueOfIndexInBooklet, int>
     {
         private readonly IMongoDatabase _database;
-        public MaxOrderValueOfBookletIndicesHandler(IMongoDatabase database) 
+        public MaxOrderValueOfIndexInBookletHandler(IMongoDatabase database) 
         {
             _database = database;
         }
 
         public async Task<int> Handle(
-            MaxOrderValueOfBookletIndices request,
+            MaxOrderValueOfIndexInBooklet request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);

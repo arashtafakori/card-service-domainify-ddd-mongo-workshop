@@ -22,7 +22,7 @@ namespace Module.Domain.BookletAggregation
         public override async Task<Index> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var maxOrder = await mediator.Send(new MaxOrderValueOfBookletIndices(BookletId));
+            var maxOrder = await mediator.Send(new MaxOrderValueOfIndexInBooklet(BookletId));
 
             var index = Index.NewInstance()
                 .SetName(Name).SetOrder(maxOrder + 1);

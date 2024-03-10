@@ -1,30 +1,30 @@
 ﻿using MediatR;
-using Module.Domain.BookletAggregation;
+using Module.Domain.CardAggregation;
 using MongoDB.Driver;
 using Persistence.MongoDb;
 
-namespace Module.Persistence.BookletRepository
+namespace Module.Persistence.CardRepository
 {
-    public class EditBookletTitleHandler :
-        IRequestHandler<EditBookletTitle>
+    public class EditCardHandler :
+        IRequestHandler<EditCard>
     {
         private readonly IMediator _mediator;
         private readonly IMongoDatabase _database;
-        public EditBookletTitleHandler(
+        public EditCardHandler(
             IMediator mediator, IMongoDatabase database)
         {
             _mediator = mediator;
             _database = database;
         }
         public async Task<Unit> Handle(
-            EditBookletTitle request,
+            EditCard request,
             CancellationToken cancellationToken)
         {
-            var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
+            var collection = _database.GetCollection<CardDocument>(ConnectionNames.Card);
             var preparedItem = await request.ResolveAndGetEntityAsync(_mediator);
 
-            var filter = Builders<BookletDocument>.Filter.Eq(d => d.Id, preparedItem.Id);
-            var documentToUpdate = BookletDocument.InstanceOf(preparedItem);
+            var filter = Builders<CardDocument>.Filter.Eq(d => d.Id, preparedItem.Id);
+            var documentToUpdate = CardDocument.InstanceOf(preparedItem);
             await collection.ReplaceOneAsync(filter, documentToUpdate);
             return new Unit();
         }

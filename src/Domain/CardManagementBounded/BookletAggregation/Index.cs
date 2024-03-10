@@ -6,14 +6,13 @@ namespace Module.Domain.BookletAggregation
 {
     public class Index : Entity<Index, string>
     {
+        [Required]
+        public short Order { get; protected set; }
         [MinLengthShouldBe(3)]
         [MaxLengthShouldBe(50)]
         [StringLength(50)]
         [Required(AllowEmptyStrings = false)]
         public string Name { get; protected set; } = string.Empty;
-
-        [Required]
-        public int Order { get; protected set; }
 
         public override ConditionProperty<Index>? Uniqueness()
         {
@@ -28,18 +27,19 @@ namespace Module.Domain.BookletAggregation
         {
             return new Index();
         }
+        public Index SetOrder(short value)
+        {
+            Order = value;
+
+            return this;
+        }
         public Index SetName(string value)
         {
             Name = value;
 
             return this;
         }
-        public Index SetOrder(int value)
-        {
-            Order = value;
 
-            return this;
-        }
         public IndexViewModel ToViewModel()
         {
             var viewModel = new IndexViewModel()
@@ -48,6 +48,7 @@ namespace Module.Domain.BookletAggregation
                 IsDeleted = IsDeleted,
                 Id = Id!,
                 Name = Name,
+                Order = Order
             };
 
             return viewModel;

@@ -18,7 +18,7 @@ namespace Module.Domain.BookletAggregation
         public override async Task<Booklet> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var booklet = Booklet.NewInstance(type: "001")
+            var booklet = Booklet.NewInstance(type: 1)
                 .SetTitle(Title);
 
             InvariantState.AddAnInvariantRequest(new PreventIfTheSameBookletHasAlreadyExisted(booklet));

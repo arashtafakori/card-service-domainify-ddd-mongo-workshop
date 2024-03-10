@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BookletManagementBoundedContext\BookletAggregation\Issues\" />
+    <Folder Include="CardManagementBounded\BookletAggregation\Issues\" />
   </ItemGroup>
 
   <ItemGroup>

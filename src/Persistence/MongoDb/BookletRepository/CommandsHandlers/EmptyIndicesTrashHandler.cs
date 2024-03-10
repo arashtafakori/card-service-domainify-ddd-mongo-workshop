@@ -22,6 +22,7 @@ namespace Module.Persistence.BookletRepository
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
+            await request.ResolveAsync(_mediator);
 
             var filter = Builders<BookletDocument>
                    .Filter.Eq(b => b.Id, request.BookletId);
