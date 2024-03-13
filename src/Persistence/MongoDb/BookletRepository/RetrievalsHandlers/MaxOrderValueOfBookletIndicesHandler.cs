@@ -7,7 +7,7 @@ using Index = Module.Domain.BookletAggregation.Index;
 namespace Module.Persistence.BookletRepository
 {
     internal class MaxOrderValueOfIndexInBookletHandler :
-        IRequestHandler<MaxOrderValueOfIndexInBooklet, int>
+        IRequestHandler<MaxOrderValueOfIndexInBooklet, double>
     {
         private readonly IMongoDatabase _database;
         public MaxOrderValueOfIndexInBookletHandler(IMongoDatabase database) 
@@ -15,7 +15,7 @@ namespace Module.Persistence.BookletRepository
             _database = database;
         }
 
-        public async Task<int> Handle(
+        public async Task<double> Handle(
             MaxOrderValueOfIndexInBooklet request,
             CancellationToken cancellationToken)
         {
@@ -28,7 +28,7 @@ namespace Module.Persistence.BookletRepository
                 Builders<BookletDocument>.Filter.ElemMatch(b => b.Indices,
                 Builders<Index>.Filter.And(filterIndex)));
 
-            var maxOrder = 0;
+            double maxOrder = 0;
             var result = await collection.FindSync(filter)
                 .FirstOrDefaultAsync();
 

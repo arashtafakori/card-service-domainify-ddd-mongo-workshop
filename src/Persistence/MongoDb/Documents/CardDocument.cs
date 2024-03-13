@@ -16,7 +16,7 @@ namespace Persistence.MongoDb
         public required string BookletId { get; set; }
         public string? IndexId { get; set; }
         public required short Type { get; set; }
-        public required long Order { get; set; }
+        public required double Order { get; set; }
         public required string Expression { get; set; }
         public required string ExpressionLanguage { get; set; }
         public string? Translation { get; set; }

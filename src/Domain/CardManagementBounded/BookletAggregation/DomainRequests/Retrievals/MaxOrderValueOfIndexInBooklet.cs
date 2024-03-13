@@ -4,7 +4,7 @@ using MediatR;
 namespace Module.Domain.BookletAggregation
 {
     internal class MaxOrderValueOfIndexInBooklet :
-        QueryItemRequest<Booklet, int>
+        QueryItemRequest<Booklet, double>
     {
         public string BookletId { get; private set; }
         public MaxOrderValueOfIndexInBooklet(string bookletId)

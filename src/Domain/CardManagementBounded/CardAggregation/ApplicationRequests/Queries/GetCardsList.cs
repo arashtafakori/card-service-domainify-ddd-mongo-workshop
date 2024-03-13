@@ -6,6 +6,12 @@ namespace Module.Domain.CardAggregation
     public class GetCardsList :
         QueryListRequest<Card, PaginatedViewModel<CardViewModel>>
     {
+        [BindTo(typeof(Card), nameof(Card.BookletId))]
+        public required string BookletId { get; set; }
+
+        [BindTo(typeof(Card), nameof(Card.IndexId))]
+        public string? IndexId { get; set; }
+
         public bool? IsDeleted { get; set; }
         public string? SearchValue { get; set; } = string.Empty;
 

@@ -7,7 +7,7 @@ namespace Module.Domain.BookletAggregation
     public class Index : Entity<Index, string>
     {
         [Required]
-        public short Order { get; protected set; }
+        public double Order { get; protected set; }
         [MinLengthShouldBe(3)]
         [MaxLengthShouldBe(50)]
         [StringLength(50)]
@@ -27,7 +27,7 @@ namespace Module.Domain.BookletAggregation
         {
             return new Index();
         }
-        public Index SetOrder(short value)
+        public Index SetOrder(double value)
         {
             Order = value;
 

@@ -26,7 +26,8 @@ namespace Module.Persistence.CardRepository
 
             var filter = Builders<CardDocument>.Filter.And(
                 Builders<CardDocument>.Filter.Eq(d => d.IsDeleted, true),
-                Builders<CardDocument>.Filter.Eq(d => d.BookletId, request.BookletId));
+                Builders<CardDocument>.Filter.Eq(d => d.BookletId, request.BookletId),
+                Builders<CardDocument>.Filter.Eq(d => d.IndexId, request.IndexId));
 
             await collection.DeleteManyAsync(filter);
 

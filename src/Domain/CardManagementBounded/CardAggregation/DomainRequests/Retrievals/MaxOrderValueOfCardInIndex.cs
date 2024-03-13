@@ -4,11 +4,13 @@ using MediatR;
 namespace Module.Domain.CardAggregation
 {
     internal class MaxOrderValueOfCardInIndex :
-        QueryItemRequest<Card, long>
+        QueryItemRequest<Card, double>
     {
+        public string BookletId { get; private set; }
         public string? IndexId { get; private set; }
-        public MaxOrderValueOfCardInIndex(string? indexId = null)
+        public MaxOrderValueOfCardInIndex(string bookletId, string ? indexId = null)
         {
+            BookletId = bookletId;
             IndexId = indexId;
         }
         public override async Task ResolveAsync(IMediator mediator)

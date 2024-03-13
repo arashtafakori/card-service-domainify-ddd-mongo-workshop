@@ -15,7 +15,7 @@ namespace Module.Domain.CardAggregation
         public string BookletId { get; set; } = string.Empty;
         public string IndexId { get; set; } = string.Empty;
         public short Type { get; set; }
-        public long Order { get; set; }
+        public double Order { get; set; }
         public string Expression { get; set; } = string.Empty;
         public string ExpressionLanguage { get; set; } = string.Empty;
         public string Translation { get; set; } = string.Empty;

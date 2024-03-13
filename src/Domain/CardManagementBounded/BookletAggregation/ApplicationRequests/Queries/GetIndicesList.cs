@@ -12,9 +12,8 @@ namespace Module.Domain.BookletAggregation
         public bool? IsDeleted { get; set; }
         public string? SearchValue { get; set; } = string.Empty;
 
-        public GetIndicesList(string bookletId)
+        public GetIndicesList()
         {
-            BookletId = bookletId;
             ValidationState.Validate();
         }
         public override async Task ResolveAsync(IMediator mediator)

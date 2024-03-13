@@ -14,6 +14,6 @@ namespace Module.Domain.BookletAggregation
 
         public string Name { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
-        public short Order { get; set; }
+        public double Order { get; set; }
     }
 }

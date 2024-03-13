@@ -26,6 +26,8 @@ namespace Module.Persistence.BookletRepository
             filterBooklet = filterBooklet & Builders<BookletDocument>
                 .Filter.Eq(b => b.IsDeleted, false);
 
+            var retrivalDeletationStatus = request.IsDeleted ?? false;
+
             var filter = Builders<BookletDocument>.Filter.And(filterBooklet);
 
             var booklet = await collection.FindSync(filter)
@@ -34,7 +36,7 @@ namespace Module.Persistence.BookletRepository
             var retrievedItems = new List<IndexViewModel>();
             if (booklet != null)
                 retrievedItems = booklet.Indices
-                    .Where(i => i.IsDeleted == request.IsDeleted)
+                    .Where(i => i.IsDeleted == retrivalDeletationStatus)
                     .Select(i => i.ToViewModel()).ToList();
 
             return retrievedItems;

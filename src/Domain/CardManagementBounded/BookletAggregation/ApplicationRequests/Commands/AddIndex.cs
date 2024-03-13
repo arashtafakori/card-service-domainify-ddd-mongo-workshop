@@ -23,7 +23,7 @@ namespace Module.Domain.BookletAggregation
             IMediator mediator)
         {
             var maxOrder = await mediator.Send(new MaxOrderValueOfIndexInBooklet(BookletId));
-
+ 
             var index = Index.NewInstance()
                 .SetName(Name).SetOrder(maxOrder + 1);
    

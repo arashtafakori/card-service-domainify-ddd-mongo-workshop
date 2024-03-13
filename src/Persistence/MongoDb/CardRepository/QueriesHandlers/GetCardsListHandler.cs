@@ -23,7 +23,7 @@ namespace Module.Persistence.CardRepository
         {
             var collection = _database.GetCollection<CardDocument>(ConnectionNames.Card);
 
-            var retrivalDeletationStatus = request.IsDeleted;
+            var retrivalDeletationStatus = request.IsDeleted ?? false;
             if (request.IsDeleted == false && request.EvenDeletedData)
                 retrivalDeletationStatus = true;
 
@@ -32,6 +32,8 @@ namespace Module.Persistence.CardRepository
                 Builders<CardDocument>.Filter.Regex(d => d.Expression, new BsonRegularExpression(request.SearchValue, "i")));
 
             var filter = Builders<CardDocument>.Filter.And(
+                Builders<CardDocument>.Filter.Eq(d => d.BookletId, request.BookletId),
+                Builders<CardDocument>.Filter.Eq(d => d.IndexId, request.IndexId),
                 Builders<CardDocument>.Filter.Eq(d => d.IsDeleted, retrivalDeletationStatus),
                 filterSearch);
 
@@ -40,7 +42,7 @@ namespace Module.Persistence.CardRepository
             var findFluent = collection.Find(filter)
                 .Skip(skip)
                 .Limit(request.PageSize)
-                .SortByDescending(r => r.Order);
+                .SortBy(r => r.Order);
 
              var retrievedItems = (await findFluent.ToListAsync())
                 .Select(i => i.ToEntity().ToViewModel()).ToList();

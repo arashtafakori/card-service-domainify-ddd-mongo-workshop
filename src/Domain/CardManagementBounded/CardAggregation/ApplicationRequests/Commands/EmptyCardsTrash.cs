@@ -7,10 +7,13 @@ namespace Module.Domain.CardAggregation
         CommandRequest<Card>
     {
         [BindTo(typeof(Card), nameof(Card.BookletId))]
-        public string BookletId { get; private set; }
-        public EmptyCardsTrash(string bookletId)
+        public required string BookletId { get; set; }
+
+        [BindTo(typeof(Card), nameof(Card.IndexId))]
+        public string? IndexId { get; set; }
+
+        public EmptyCardsTrash()
         {
-            BookletId = bookletId;
             ValidationState.Validate();
         }
 

@@ -26,6 +26,7 @@ namespace Module.Application
 
             // Application Services
             services.AddScoped<IBookletService, BookletService>();
+            services.AddScoped<ICardService, CardService>();
 
             // Infrastructure Services
         }

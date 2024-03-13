@@ -45,7 +45,11 @@ namespace Module.Domain.CardAggregation
         public override async Task<Card> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
+            var maxOrder = await mediator.Send(
+                new MaxOrderValueOfCardInIndex(bookletId: BookletId, indexId: IndexId));
+
             var card = Card.NewInstance(type: 1, bookletId: BookletId, indexId: IndexId)
+                .SetOrder(maxOrder + 1)
                 .SetExpression(Expression)
                 .SetExpressionLanguage(ExpressionLanguage)
                 .SetTranslation(Translation!)

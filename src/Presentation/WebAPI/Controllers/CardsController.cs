@@ -18,15 +18,10 @@ namespace Module.Presentation.WebAPI
             _cardService = projectService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<PaginatedViewModel<CardViewModel>>> GetList()
-        {
-            var request = GetRequest<GetCardsList>();
-            return await _cardService.Process(request);
-        }
-
-        [HttpGet($"/v1.1/[controller]")]
+        [HttpGet($"/v1/[controller]/")]
         public async Task<ActionResult<PaginatedViewModel<CardViewModel>>> GetList(
+            string bookletId,
+            string? indexId = null,
             int? pageNumber = null,
             int? pageSize = null,
             bool? isDeleted = null,
@@ -50,13 +45,13 @@ namespace Module.Presentation.WebAPI
         }
 
         [HttpPost]
-        public async Task<ActionResult<CardViewModel?>> Create(AddCard request)
+        public async Task<ActionResult<CardViewModel?>> Add(AddCard request)
         {
             return StatusCode(201, await _cardService.Process(request));
         }
 
-        [HttpPatch("[action]")]
-        public async Task<ActionResult<CardViewModel?>> EditCardTitle(EditCard request)
+        [HttpPut]
+        public async Task<ActionResult<CardViewModel?>> Edit(EditCard request)
         {
             var updatedItem = await _cardService.Process(request);
             return Ok(updatedItem);
@@ -82,11 +77,15 @@ namespace Module.Presentation.WebAPI
             return await View(
                 () => _cardService.Process(new DeleteCardPermanently(id)));
         }
-        [HttpDelete("[action]/{bookletId}")]
-        public async Task<IActionResult> EmptyTrash(string bookletId)
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> EmptyTrash(
+            string bookletId,
+            string? indexId = null)
         {
+            var request = GetRequest<EmptyCardsTrash>();
+
             return await View(
-                () => _cardService.Process(new EmptyCardsTrash(bookletId: bookletId)));
+                () => _cardService.Process(request));
         }
     }
 }

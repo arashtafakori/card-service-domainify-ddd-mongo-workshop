@@ -12,11 +12,9 @@ namespace Module.Domain.CardAggregation
         public short Type { get; protected set; }
 
         [Required]
-        public long Order { get; protected set; }
+        public double Order { get; protected set; }
 
-        [MinLengthShouldBe(3)]
-        [MaxLengthShouldBe(50)]
-        [StringLength(50)]
+        [MinLengthShouldBe(1)]
         [Required(AllowEmptyStrings = false)]
         public string Expression { get; protected set; } = string.Empty;
 
@@ -26,9 +24,7 @@ namespace Module.Domain.CardAggregation
         [Required(AllowEmptyStrings = false)]
         public string ExpressionLanguage { get; protected set; } = string.Empty;
 
-        [MinLengthShouldBe(3)]
-        [MaxLengthShouldBe(50)]
-        [StringLength(50)]
+        [MinLengthShouldBe(1)]
         public string? Translation { get; protected set; }
 
         [MinLengthShouldBe(2)]
@@ -46,7 +42,7 @@ namespace Module.Domain.CardAggregation
                 .SetBookletId(bookletId)
                 .SetIndexId(indexId);
         }
-        public Card SetOrder(long value)
+        public Card SetOrder(double value)
         {
             Order = value;
 

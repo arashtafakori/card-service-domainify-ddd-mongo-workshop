@@ -23,7 +23,7 @@ namespace Module.Persistence.BookletRepository
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
 
-            var retrivalDeletationStatus = request.IsDeleted;
+            var retrivalDeletationStatus = request.IsDeleted ?? false;
             if (request.IsDeleted == false && request.EvenDeletedData)
                 retrivalDeletationStatus = true;
 
