@@ -12,10 +12,11 @@ namespace Persistence.MongoDb
         public bool IsDeleted { get; set; } = false;
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime ModifiedDate { get; set; }
+        public required double Version { get; set; }
 
+        public required short Type { get; set; }
         public required string BookletId { get; set; }
         public string? IndexId { get; set; }
-        public required short Type { get; set; }
         public required double Order { get; set; }
         public required string Expression { get; set; }
         public required string ExpressionLanguage { get; set; }
@@ -28,11 +29,12 @@ namespace Persistence.MongoDb
                 Id = card.Id,
                 IsDeleted = card.IsDeleted,
                 ModifiedDate = card.ModifiedDate,
+                Version = card.Version,
 
+                Type = card.Type,
                 BookletId = card.BookletId,
                 IndexId = card.IndexId,
                 Order = card.Order,
-                Type = card.Type,
                 Expression = card.Expression,
                 ExpressionLanguage = card.ExpressionLanguage,
                 Translation = card.Translation,
@@ -45,14 +47,15 @@ namespace Persistence.MongoDb
         public Card ToEntity()
         {
             var card = Card.NewInstance(
-                type: Type,
                 bookletId: BookletId,
                 indexId: IndexId);
             card.SetId(Id!);
             card.ModifiedDate = ModifiedDate;
             card.IsDeleted = IsDeleted;
+            card.Version = Version;
 
-            card.SetOrder(Order)
+            card.SetType(Type)
+                .SetOrder(Order)
                 .SetExpression(Expression)
                 .SetExpressionLanguage(ExpressionLanguage)
                 .SetTranslation(Translation!)

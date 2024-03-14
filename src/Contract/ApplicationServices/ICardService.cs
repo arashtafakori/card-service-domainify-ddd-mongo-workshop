@@ -12,6 +12,6 @@ namespace Module.Contract
         public Task Process(DeleteCardPermanently request);
         public Task Process(EmptyCardsTrash request);
         public Task<CardViewModel?> Process(GetCard request);
-        public Task<PaginatedViewModel<CardViewModel>> Process(GetCardsList request);
+        public Task<PaginatedList<CardViewModel>> Process(GetCardsList request);
     }
 }

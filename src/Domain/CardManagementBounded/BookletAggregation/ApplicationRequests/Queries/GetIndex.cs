@@ -9,7 +9,7 @@ namespace Module.Domain.BookletAggregation
         public GetIndex(string id, bool evenDeletedData = false) : base(id)
         {
             //PreventIfNoEntityWasFound = true;
-            EvenDeletedData = evenDeletedData;
+            IncludeDeleted = evenDeletedData;
         }
         public override async Task ResolveAsync(IMediator mediator)
         {

@@ -23,9 +23,9 @@ namespace Module.Persistence.CardRepository
             var filter = Builders<CardDocument>
                 .Filter.Eq(r => r.Id, request.Id);
 
-            if (request.EvenDeletedData == false)
+            if (request.IncludeDeleted == false)
                 filter = filter & Builders<CardDocument>
-                   .Filter.Eq(r => r.IsDeleted, request.EvenDeletedData);
+                   .Filter.Eq(r => r.IsDeleted, request.IncludeDeleted);
 
             var findFluent = collection.Find(filter);
 

@@ -4,7 +4,7 @@ using Domainify.Domain;
 namespace Module.Domain.CardAggregation
 {
     public class GetCardsList :
-        QueryListRequest<Card, PaginatedViewModel<CardViewModel>>
+        QueryListRequest<Card, PaginatedList<CardViewModel>>
     {
         [BindTo(typeof(Card), nameof(Card.BookletId))]
         public required string BookletId { get; set; }

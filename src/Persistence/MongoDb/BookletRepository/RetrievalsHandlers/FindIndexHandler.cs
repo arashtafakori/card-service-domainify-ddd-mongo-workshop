@@ -29,7 +29,7 @@ namespace Module.Persistence.BookletRepository
             var indices = (await collection.FindAsync(filter)
                 .Result.FirstOrDefaultAsync()).Indices.AsEnumerable();
 
-            if (request.EvenDeletedData == false)
+            if (request.IncludeDeleted == false)
                 indices = indices.Where(i => i.IsDeleted == false);
 
             return indices.FirstOrDefault(i => i.Id == request.Id);

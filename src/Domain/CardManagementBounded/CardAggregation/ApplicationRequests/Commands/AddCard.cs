@@ -48,7 +48,7 @@ namespace Module.Domain.CardAggregation
             var maxOrder = await mediator.Send(
                 new MaxOrderValueOfCardInIndex(bookletId: BookletId, indexId: IndexId));
 
-            var card = Card.NewInstance(type: 1, bookletId: BookletId, indexId: IndexId)
+            var card = Card.NewInstance(bookletId: BookletId, indexId: IndexId)
                 .SetOrder(maxOrder + 1)
                 .SetExpression(Expression)
                 .SetExpressionLanguage(ExpressionLanguage)

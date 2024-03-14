@@ -9,7 +9,7 @@ namespace Module.Persistence.CardRepository
 {
     public class GetCardsListHandler :
         IRequestHandler<GetCardsList,
-            PaginatedViewModel<CardViewModel>>
+            PaginatedList<CardViewModel>>
     {
         private readonly IMongoDatabase _database;
         public GetCardsListHandler(IMongoDatabase database)
@@ -17,14 +17,14 @@ namespace Module.Persistence.CardRepository
             _database = database;
         }
 
-        public async Task<PaginatedViewModel<CardViewModel>> Handle(
+        public async Task<PaginatedList<CardViewModel>> Handle(
             GetCardsList request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<CardDocument>(ConnectionNames.Card);
 
             var retrivalDeletationStatus = request.IsDeleted ?? false;
-            if (request.IsDeleted == false && request.EvenDeletedData)
+            if (request.IsDeleted == false && request.IncludeDeleted)
                 retrivalDeletationStatus = true;
 
             var filterSearch = Builders<CardDocument>.Filter.Or(
@@ -49,7 +49,7 @@ namespace Module.Persistence.CardRepository
 
             var totalCount = await findFluent.CountDocumentsAsync();
 
-            return new PaginatedViewModel<CardViewModel>(
+            return new PaginatedList<CardViewModel>(
                 retrievedItems,
                 numberOfTotalItems: totalCount,
                 pageNumber: request.PageNumber,

@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Domainify" Version="1.0.0.7" />
+    <PackageReference Include="Domainify" Version="1.0.0.8" />
   </ItemGroup>
 
 </Project>

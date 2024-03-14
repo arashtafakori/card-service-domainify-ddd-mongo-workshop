@@ -12,7 +12,7 @@ namespace Module.Contract
         public Task Process(DeleteBookletPermanently request);
         public Task Process(EmptyBookletsTrash request);
         public Task<BookletViewModel?> Process(GetBooklet request);
-        public Task<PaginatedViewModel<BookletViewModel>> Process(GetBookletsList request);
+        public Task<PaginatedList<BookletViewModel>> Process(GetBookletsList request);
  
         public Task<IndexViewModel?> Process(AddIndex request);
         public Task<IndexViewModel?> Process(EditIndexName request);

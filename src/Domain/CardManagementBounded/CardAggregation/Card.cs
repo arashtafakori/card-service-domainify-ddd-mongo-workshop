@@ -5,6 +5,8 @@ namespace Module.Domain.CardAggregation
 {
     public class Card : Entity<Card, string>, IAggregateRoot
     {
+        public double Version { get; set; }
+
         [Required]
         public string BookletId { get; protected set; } = string.Empty;
 
@@ -31,22 +33,18 @@ namespace Module.Domain.CardAggregation
         [MaxLengthShouldBe(2)]
         [StringLength(2)]
         public string? TranslationLanguage { get; protected set; }
-
+        public Card()
+        {
+            Type = 1;
+            Version = 1.0;
+        }
         public static Card NewInstance(
-            short type,
             string bookletId,
             string? indexId = null)
         {
             return new Card()
-                .SetType(type)
                 .SetBookletId(bookletId)
                 .SetIndexId(indexId);
-        }
-        public Card SetOrder(double value)
-        {
-            Order = value;
-
-            return this;
         }
         public Card SetType(short value)
         {
@@ -54,6 +52,13 @@ namespace Module.Domain.CardAggregation
 
             return this;
         }
+        public Card SetOrder(double value)
+        {
+            Order = value;
+
+            return this;
+        }
+
         public Card SetBookletId(string value)
         {
             BookletId = value;

@@ -8,7 +8,7 @@ namespace Module.Domain.CardAggregation
     {
         public FindCard(string id, bool evenDeletedData = false) : base(id)
         {
-            EvenDeletedData = evenDeletedData;
+            IncludeDeleted = evenDeletedData;
         }
         public override async Task ResolveAsync(IMediator mediator)
         {

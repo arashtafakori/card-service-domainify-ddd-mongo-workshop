@@ -19,14 +19,14 @@ namespace Module.Presentation.WebAPI
         }
 
         [HttpGet]
-        public async Task<ActionResult<PaginatedViewModel<BookletViewModel>>> GetList()
+        public async Task<ActionResult<PaginatedList<BookletViewModel>>> GetList()
         {
             var request = GetRequest<GetBookletsList>();
             return await _bookletService.Process(request);
         }
 
         [HttpGet($"/v1.1/[controller]")]
-        public async Task<ActionResult<PaginatedViewModel<BookletViewModel>>> GetList(
+        public async Task<ActionResult<PaginatedList<BookletViewModel>>> GetList(
             int? pageNumber = null,
             int? pageSize = null,
             bool? isDeleted = null,

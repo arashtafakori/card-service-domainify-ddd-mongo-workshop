@@ -14,6 +14,7 @@ namespace Persistence.MongoDb
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public required DateTime ModifiedDate { get; set; }
+        public required double Version { get; set; }
 
         public required short Type { get; set; }
         public required string Title { get; set; }
@@ -27,6 +28,7 @@ namespace Persistence.MongoDb
                 Id = booklet.Id,
                 IsDeleted = booklet.IsDeleted,
                 ModifiedDate = booklet.ModifiedDate,
+                Version = booklet.Version,
 
                 Type = booklet.Type,
                 Title = booklet.Title,
@@ -37,12 +39,13 @@ namespace Persistence.MongoDb
 
         public Booklet ToEntity()
         {
-            var booklet = Booklet.NewInstance(Type);
+            var booklet = Booklet.NewInstance();
             booklet.SetId(Id!);
             booklet.ModifiedDate = ModifiedDate;
             booklet.IsDeleted = IsDeleted;
+            booklet.Version = Version;
 
-            booklet.SetTitle(Title!);
+            booklet.SetType(Type).SetTitle(Title!);
             booklet.Indices = Indices;
 
             return booklet;

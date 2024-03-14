@@ -9,7 +9,7 @@ namespace Module.Persistence.BookletRepository
 {
     public class GetBookletsListHandler :
         IRequestHandler<GetBookletsList,
-            PaginatedViewModel<BookletViewModel>>
+            PaginatedList<BookletViewModel>>
     {
         private readonly IMongoDatabase _database;
         public GetBookletsListHandler(IMongoDatabase database)
@@ -17,14 +17,14 @@ namespace Module.Persistence.BookletRepository
             _database = database;
         }
 
-        public async Task<PaginatedViewModel<BookletViewModel>> Handle(
+        public async Task<PaginatedList<BookletViewModel>> Handle(
             GetBookletsList request,
             CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<BookletDocument>(ConnectionNames.Booklet);
 
             var retrivalDeletationStatus = request.IsDeleted ?? false;
-            if (request.IsDeleted == false && request.EvenDeletedData)
+            if (request.IsDeleted == false && request.IncludeDeleted)
                 retrivalDeletationStatus = true;
 
             var filter = Builders<BookletDocument>.Filter.And(
@@ -44,7 +44,7 @@ namespace Module.Persistence.BookletRepository
 
             var totalCount = await findFluent.CountDocumentsAsync();
 
-            return new PaginatedViewModel<BookletViewModel>(
+            return new PaginatedList<BookletViewModel>(
                 retrievedItems,
                 numberOfTotalItems: totalCount,
                 pageNumber: request.PageNumber,

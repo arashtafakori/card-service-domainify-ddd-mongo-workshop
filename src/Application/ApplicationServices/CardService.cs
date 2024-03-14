@@ -44,7 +44,7 @@ namespace Module.Application
         {
             return (await _mediator.Send(request))!.ToViewModel();
         }
-        public async Task<PaginatedViewModel<CardViewModel>> Process(GetCardsList request)
+        public async Task<PaginatedList<CardViewModel>> Process(GetCardsList request)
         {
             return await _mediator.Send(request);
         }

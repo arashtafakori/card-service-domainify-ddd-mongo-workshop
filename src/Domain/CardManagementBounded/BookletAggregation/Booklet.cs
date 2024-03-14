@@ -1,11 +1,14 @@
 ﻿using Domainify.Domain;
 using System.ComponentModel.DataAnnotations;
 using Domain.Properties;
+using Module.Domain.CardAggregation;
 
 namespace Module.Domain.BookletAggregation
 {
     public class Booklet : Entity<Booklet, string>, IAggregateRoot
     {
+        public double Version { get; set; }
+
         [MinLengthShouldBe(3)]
         [MaxLengthShouldBe(50)]
         [StringLength(50)]
@@ -17,6 +20,12 @@ namespace Module.Domain.BookletAggregation
 
         public List<Index> Indices { get; set; } = new List<Index>();
 
+        public Booklet SetType(short value)
+        {
+            Type = value;
+
+            return this;
+        }
         public override ConditionProperty<Booklet>? Uniqueness()
         {
             return new ConditionProperty<Booklet>()
@@ -26,16 +35,15 @@ namespace Module.Domain.BookletAggregation
             };
         }
 
-        public static Booklet NewInstance(short type)
+        public Booklet ()
         {
-            return new Booklet().SetType(type);
+            Type = 1;
+            Version = 1.0;
         }
 
-        public Booklet SetType(short value)
+        public static Booklet NewInstance()
         {
-            Type = value;
-
-            return this;
+            return new Booklet();
         }
 
         public Booklet SetTitle(string value)
@@ -44,7 +52,6 @@ namespace Module.Domain.BookletAggregation
 
             return this;
         }
-
         public BookletViewModel ToViewModel()
         {
             var viewModel = new BookletViewModel()

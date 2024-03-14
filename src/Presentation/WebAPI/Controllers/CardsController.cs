@@ -19,7 +19,7 @@ namespace Module.Presentation.WebAPI
         }
 
         [HttpGet($"/v1/[controller]/")]
-        public async Task<ActionResult<PaginatedViewModel<CardViewModel>>> GetList(
+        public async Task<ActionResult<PaginatedList<CardViewModel>>> GetList(
             string bookletId,
             string? indexId = null,
             int? pageNumber = null,

@@ -10,7 +10,7 @@ namespace Module.Domain.BookletAggregation
         public FindBooklet(string id, bool withIndices = false, bool evenDeletedData = false) : base(id)
         {
             WithIndices = withIndices;
-            EvenDeletedData = evenDeletedData;
+            IncludeDeleted = evenDeletedData;
         }
         public override async Task ResolveAsync(IMediator mediator)
         {

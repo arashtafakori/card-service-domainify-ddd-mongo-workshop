@@ -12,7 +12,7 @@ namespace Module.Domain.BookletAggregation
             WithIndices = withIndices;
             //TrackingMode = true;
             //PreventIfNoEntityWasFound = true;
-            EvenDeletedData = evenDeletedData;
+            IncludeDeleted = evenDeletedData;
         }
         public override async Task ResolveAsync(IMediator mediator)
         {
