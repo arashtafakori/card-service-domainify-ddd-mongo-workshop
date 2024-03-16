@@ -20,5 +20,6 @@ namespace Module.Domain.CardAggregation
         public string ExpressionLanguage { get; set; } = string.Empty;
         public string Translation { get; set; } = string.Empty;
         public string TranslationLanguage { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }

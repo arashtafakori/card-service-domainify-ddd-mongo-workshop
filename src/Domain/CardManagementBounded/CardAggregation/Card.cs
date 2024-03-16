@@ -33,6 +33,8 @@ namespace Module.Domain.CardAggregation
         [MaxLengthShouldBe(2)]
         [StringLength(2)]
         public string? TranslationLanguage { get; protected set; }
+
+        public string? Description { get; protected set; }
         public Card()
         {
             Type = 1;
@@ -96,7 +98,12 @@ namespace Module.Domain.CardAggregation
             return this;
         }
 
+        public Card SetDescription(string value)
+        {
+            Description = value;
 
+            return this;
+        }
         public CardViewModel ToViewModel()
         {
             var viewModel = new CardViewModel()
@@ -112,6 +119,7 @@ namespace Module.Domain.CardAggregation
                 ExpressionLanguage = ExpressionLanguage,
                 Translation = Translation!,
                 TranslationLanguage = TranslationLanguage!,
+                Description = Description!
             };
 
             return viewModel;

@@ -24,12 +24,15 @@ namespace Module.Domain.CardAggregation
         [BindTo(typeof(Card), nameof(Card.TranslationLanguage))]
         public string? TranslationLanguage { get; private set; }
 
+        [BindTo(typeof(Card), nameof(Card.Description))]
+        public string? Description { get; private set; }
         public AddCard(
             string bookletId,
             string expression,
             string expressionLanguage,
             string? translation = null,
             string? translationLanguage = null,
+            string? description = null,
             string? indexId = null)
         {
             BookletId = bookletId;
@@ -38,6 +41,7 @@ namespace Module.Domain.CardAggregation
             ExpressionLanguage = expressionLanguage.Trim();
             Translation = translation!.Trim();
             TranslationLanguage = translationLanguage!.Trim();
+            Description = description!.Trim();
 
             ValidationState.Validate();
         }
@@ -53,7 +57,8 @@ namespace Module.Domain.CardAggregation
                 .SetExpression(Expression)
                 .SetExpressionLanguage(ExpressionLanguage)
                 .SetTranslation(Translation!)
-                .SetTranslationLanguage(TranslationLanguage!);
+                .SetTranslationLanguage(TranslationLanguage!)
+                .SetDescription(Description!);
 
             await InvariantState.AssestAsync(mediator);
  

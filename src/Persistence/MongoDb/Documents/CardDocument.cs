@@ -22,6 +22,7 @@ namespace Persistence.MongoDb
         public required string ExpressionLanguage { get; set; }
         public string? Translation { get; set; }
         public string? TranslationLanguage { get; set; }
+        public string? Description { get; set; }
         public static CardDocument InstanceOf(Card card)
         {
             var dataModel = new CardDocument()
@@ -39,6 +40,7 @@ namespace Persistence.MongoDb
                 ExpressionLanguage = card.ExpressionLanguage,
                 Translation = card.Translation,
                 TranslationLanguage = card.TranslationLanguage,
+                Description = card.Description
             };
   
             return dataModel;
@@ -59,8 +61,8 @@ namespace Persistence.MongoDb
                 .SetExpression(Expression)
                 .SetExpressionLanguage(ExpressionLanguage)
                 .SetTranslation(Translation!)
-                .SetTranslationLanguage(TranslationLanguage!);
-
+                .SetTranslationLanguage(TranslationLanguage!)
+                .SetDescription(Description!);
             return card;
         }
     }
