@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Module.Contract;
+using Contract;
 using Domainify.Domain;
-using Module.Domain.BookletAggregation;
+using Domain.BookletAggregation;
 
-namespace Module.Application
+namespace Application
 {
     public class BookletService : IBookletService
     {

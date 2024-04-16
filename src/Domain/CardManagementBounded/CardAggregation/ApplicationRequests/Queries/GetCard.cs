@@ -1,14 +1,14 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.CardAggregation
+namespace Domain.CardAggregation
 {
     public class GetCard :
         QueryItemRequestById<Card, string, Card?>
     {
-        public GetCard(string id, bool evenDeletedData = false) : base(id)
+        public GetCard(string id, bool includeDeleted = false) : base(id)
         {
-            IncludeDeleted = evenDeletedData;
+            IncludeDeleted = includeDeleted;
         }
         public override async Task ResolveAsync(IMediator mediator)
         {

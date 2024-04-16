@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class DeleteBookletPermanently :
         RequestToDeletePermanentlyById<Booklet, string>
@@ -17,7 +17,7 @@ namespace Module.Domain.BookletAggregation
             await InvariantState.AssestAsync(mediator);
 
             var booklet = (await mediator.Send(
-                new FindBooklet(Id, evenDeletedData: true)))!;
+                new FindBooklet(Id, includeDeleted: true)))!;
             await base.ResolveAsync(mediator, booklet);
             return booklet;
         }

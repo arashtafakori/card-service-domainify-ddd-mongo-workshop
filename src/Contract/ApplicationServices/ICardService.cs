@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
-using Module.Domain.CardAggregation;
+using Domain.CardAggregation;
 
-namespace Module.Contract
+namespace Contract
 {
     public interface ICardService
     {

@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Module.Contract;
+using Contract;
 using Domainify.Domain;
-using Module.Domain.CardAggregation;
+using Domain.CardAggregation;
 
-namespace Module.Application
+namespace Application
 {
     public class CardService : ICardService
     {

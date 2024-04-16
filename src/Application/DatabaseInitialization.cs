@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Module.Application
+namespace Application
 {
     public class DatabaseInitialization
     {

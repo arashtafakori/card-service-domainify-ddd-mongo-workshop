@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Domainify.Domain;
 
-namespace Module.Domain.CardAggregation
+namespace Domain.CardAggregation
 {
     public class GetCardsList :
         QueryListRequest<Card, PaginatedList<CardViewModel>>

@@ -1,7 +1,7 @@
-﻿using Module.Presentation.Configuration;
+﻿using Presentation.Configuration;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Diagnostics;
-using Module.Presentation.WebAPI;
+using Presentation.WebAPI;
 using Domainify;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,7 +50,10 @@ builder.Services.AddCors(options =>
 // Add this line in Configure method in Startup.cs, before app.UseMvc()
 
 
-builder.Logging.AddFilter("Module", LogLevel.Information);
+builder.Logging.AddFilter("Application", LogLevel.Information);
+builder.Logging.AddFilter("Domain", LogLevel.Information);
+builder.Logging.AddFilter("Persistence", LogLevel.Information);
+builder.Logging.AddFilter("Presentation", LogLevel.Information);
 
 var app = builder.Build();
 

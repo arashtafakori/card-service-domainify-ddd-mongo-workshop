@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using Module.Domain.BookletAggregation;
-using Index = Module.Domain.BookletAggregation.Index;
+using Domain.BookletAggregation;
+using Index = Domain.BookletAggregation.Index;
 
-namespace Persistence.MongoDb
+namespace Persistence
 {
     internal class BookletDocument
     {

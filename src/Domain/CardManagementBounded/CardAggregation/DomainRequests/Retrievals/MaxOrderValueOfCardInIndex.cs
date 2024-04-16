@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.CardAggregation
+namespace Domain.CardAggregation
 {
     internal class MaxOrderValueOfCardInIndex :
         QueryItemRequest<Card, double>

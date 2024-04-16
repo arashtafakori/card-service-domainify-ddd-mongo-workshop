@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Module.Contract;
 using Domainify.AspMvc;
-using Module.Domain.BookletAggregation;
+using Domain.BookletAggregation;
+using Contract;
 
-namespace Module.Presentation.WebAPI
+namespace Presentation.WebAPI
 {
     [Route("v1/[controller]")] 
     [ApiController]

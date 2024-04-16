@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class RestoreIndex :
         RequestToRestoreById<Index, string>
@@ -15,7 +15,7 @@ namespace Module.Domain.BookletAggregation
             IMediator mediator)
         {
             var index = (await mediator.Send(
-                new FindIndex(Id, evenDeletedData: true)))!;
+                new FindIndex(Id, includeDeleted: true)))!;
 
             InvariantState.AddAnInvariantRequest(new PreventIfTheSameIndexHasAlreadyExisted(index));
             await InvariantState.AssestAsync(mediator);

@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class IndexViewModel : ViewModel, IModifiedViewModel, IDeletableViewModel
     {

@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace Module.Domain.CardAggregation
+namespace Domain.CardAggregation
 {
     public class Card : Entity<Card, string>, IAggregateRoot
     {

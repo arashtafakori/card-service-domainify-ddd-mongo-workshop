@@ -1,8 +1,8 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using Module.Domain.CardAggregation;
- 
-namespace Persistence.MongoDb
+using Domain.CardAggregation;
+
+namespace Persistence
 {
     internal class CardDocument
     {

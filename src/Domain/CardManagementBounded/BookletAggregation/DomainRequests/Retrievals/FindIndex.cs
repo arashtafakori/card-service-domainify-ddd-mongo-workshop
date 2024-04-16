@@ -1,14 +1,14 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     internal class FindIndex :
         QueryItemRequestById<Index, string, Index?>
     {
-        public FindIndex(string id, bool evenDeletedData = false) : base(id)
+        public FindIndex(string id, bool includeDeleted = false) : base(id)
         {
-            IncludeDeleted = evenDeletedData;
+            IncludeDeleted = includeDeleted;
         }
         public override async Task ResolveAsync(IMediator mediator)
         {

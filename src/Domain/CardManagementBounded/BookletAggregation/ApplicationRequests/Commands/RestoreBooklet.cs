@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class RestoreBooklet :
         RequestToRestoreById<Booklet, string>
@@ -15,7 +15,7 @@ namespace Module.Domain.BookletAggregation
             IMediator mediator)
         {
             var booklet = (await mediator.Send(
-                new FindBooklet(Id, evenDeletedData: true)))!;
+                new FindBooklet(Id, includeDeleted: true)))!;
 
             InvariantState.AddAnInvariantRequest(new PreventIfTheSameBookletHasAlreadyExisted(booklet));
             await InvariantState.AssestAsync(mediator);

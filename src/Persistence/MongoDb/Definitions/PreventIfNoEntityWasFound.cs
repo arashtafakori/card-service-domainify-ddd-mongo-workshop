@@ -1,7 +1,8 @@
-﻿using Domainify.Domain;
+﻿using Domainify;
+using Domainify.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Domainify.MongoDb.Datastore
+namespace Persistence
 {
     public class PreventIfNoEntityWasFound<TEntity, TModel>
         : LogicalPreventer

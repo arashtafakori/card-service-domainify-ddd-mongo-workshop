@@ -1,15 +1,15 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class GetIndex :
         QueryItemRequestById<Index, string, Index?>
     {
-        public GetIndex(string id, bool evenDeletedData = false) : base(id)
+        public GetIndex(string id, bool includeDeleted = false) : base(id)
         {
             //PreventIfNoEntityWasFound = true;
-            IncludeDeleted = evenDeletedData;
+            IncludeDeleted = includeDeleted;
         }
         public override async Task ResolveAsync(IMediator mediator)
         {

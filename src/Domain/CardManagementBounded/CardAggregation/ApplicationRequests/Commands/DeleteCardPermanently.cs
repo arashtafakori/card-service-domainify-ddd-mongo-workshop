@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.CardAggregation
+namespace Domain.CardAggregation
 {
     public class DeleteCardPermanently :
         RequestToDeletePermanentlyById<Card, string>
@@ -17,7 +17,7 @@ namespace Module.Domain.CardAggregation
             await InvariantState.AssestAsync(mediator);
 
             var card = (await mediator.Send(
-                new FindCard(Id, evenDeletedData: true)))!;
+                new FindCard(Id, includeDeleted: true)))!;
             await base.ResolveAsync(mediator, card);
             return card;
         }

@@ -1,9 +1,8 @@
 ﻿using Domainify.Domain;
 using System.ComponentModel.DataAnnotations;
 using Domain.Properties;
-using Module.Domain.CardAggregation;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class Booklet : Entity<Booklet, string>, IAggregateRoot
     {

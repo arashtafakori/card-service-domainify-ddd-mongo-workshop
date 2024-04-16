@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Module.Contract;
+using Contract;
 using MediatR;
-using Application;
 using MongoDB.Driver;
 
-namespace Module.Application
+namespace Application
 {
     public static class ServiceCollectionExtensions
     {
@@ -21,7 +20,7 @@ namespace Module.Application
 
             // MediatR Registrations
             services.AddMediatR(typeof(BookletService));
-            services.AddMediatR(typeof(Persistence.BookletRepository.CreateBookletHandler));
+            services.AddMediatR(typeof(Persistence.BookletStore.CreateBookletHandler));
             services.AddMediatR(typeof(Domain.BookletAggregation.CreateBooklet));
 
             // Application Services

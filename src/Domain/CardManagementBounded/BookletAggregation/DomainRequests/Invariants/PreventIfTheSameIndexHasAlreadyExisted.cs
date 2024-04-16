@@ -2,7 +2,7 @@
 using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     internal class PreventIfTheSameIndexHasAlreadyExisted
         : InvariantRequest<Index>

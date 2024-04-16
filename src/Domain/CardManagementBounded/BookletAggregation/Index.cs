@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Domain.Properties;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class Index : Entity<Index, string>
     {

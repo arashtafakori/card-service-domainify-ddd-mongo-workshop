@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Module.Contract;
 using Domainify.AspMvc;
 using Domainify.Domain;
-using Module.Domain.CardAggregation;
+using Domain.CardAggregation;
+using Contract;
 
-namespace Module.Presentation.WebAPI
+namespace Presentation.WebAPI
 {
     [Route("v1/[controller]")] 
     [ApiController]

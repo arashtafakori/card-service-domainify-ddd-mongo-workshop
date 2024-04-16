@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
-using Module.Domain.BookletAggregation;
+using Domain.BookletAggregation;
 
-namespace Module.Contract
+namespace Contract
 {
     public interface IBookletService
     {

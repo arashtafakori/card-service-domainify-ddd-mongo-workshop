@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Domainify.Domain;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class GetBookletsList :
         QueryListRequest<Booklet, PaginatedList<BookletViewModel>>

@@ -1,7 +1,7 @@
 ﻿using Domainify.Domain;
 using MediatR;
 
-namespace Module.Domain.BookletAggregation
+namespace Domain.BookletAggregation
 {
     public class DeleteIndex :
         RequestToDeleteById<Index, string>
@@ -17,7 +17,7 @@ namespace Module.Domain.BookletAggregation
             await InvariantState.AssestAsync(mediator);
 
             var index = (await mediator.Send(
-                new FindIndex(Id, evenDeletedData: true)))!;
+                new FindIndex(Id, includeDeleted: true)))!;
             await base.ResolveAsync(mediator, index);
             return index;
         }
